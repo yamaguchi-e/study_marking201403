@@ -24,11 +24,10 @@ public class KadaiUtil {
 	public static Date changeTime(String time) {
 
 		Date change = null;
-		List<WorkTime> answerList = null;
 		try {
 			change = TIME_FORMAT.parse(time);
 		} catch (ParseException e) {
-			KadaiUtil.setErrorCode(e.getMessage(), answerList);
+			throw new RuntimeException(e);
 		}
 		return change;
 	}

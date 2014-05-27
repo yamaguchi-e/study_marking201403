@@ -4,6 +4,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 
+/**
+ * <h3>日付ソートクラス</h3>
+ *
+ * @author e_yamaguti
+ * @since 2014/04/05
+ */
 public class DateComparator implements Comparator<String> {
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
 
@@ -11,10 +17,8 @@ public class DateComparator implements Comparator<String> {
 		try {
 			return DATE_FORMAT.parse(arg0).compareTo(DATE_FORMAT.parse(arg1));
 		} catch (ParseException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
+			 throw new RuntimeException(e);
 		}
-		return 0;
     }
 
 }

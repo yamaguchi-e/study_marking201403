@@ -136,6 +136,24 @@ public class Kadai {
 				// カラム数
 				int count = 0;
 
+				// コロンの位置
+				int index = oneRecord.indexOf(KadaiConstants.COLON);
+
+				if (oneRecord.startsWith(KadaiConstants.START_BRACE)
+						|| oneRecord.startsWith(KadaiConstants.END_BRACE)) {
+					continue;
+				} else {
+					if (oneRecord.endsWith(KadaiConstants.COMMA)) {
+						// 行の末尾がカンマの場合削除
+						oneRecord = oneRecord.substring(0, oneRecord.length()-2);
+					}
+
+					if (!"[ {".equals(oneRecord.substring(index+1, index+2))
+							|| !oneRecord.endsWith("} ]")) {
+						throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
+					}
+				}
+
 				try {
 					if (!oneRecord.startsWith(KadaiConstants.END_BRACE)) {
 						// 改行または空白の場合は次の行へ
@@ -145,21 +163,6 @@ public class Kadai {
 
 						// BOM、制御文字チェック
 						checkRecord(oneRecord);
-
-						if (oneRecord.startsWith(KadaiConstants.START_BRACE)) {
-							continue;
-						} else if (oneRecord.endsWith(KadaiConstants.COMMA)) {
-							// 行の末尾がカンマの場合削除
-							oneRecord = oneRecord.substring(0, oneRecord.length()-2);
-						}
-
-						// コロンの位置
-						int index = oneRecord.indexOf(KadaiConstants.COLON);
-
-						if (!"[ {".equals(oneRecord.substring(index+1, index+2))
-								&& !oneRecord.endsWith("} ]")) {
-							throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
-						}
 
 						// 年月を取得
 						month = KadaiUtil.obtainDate(oneRecord, 0, index- 2);
@@ -547,6 +550,12 @@ public class Kadai {
 		return restTime;
 	}
 
+	/**
+	 * BOM, 制御文字チェック
+	 *
+	 * @param oneRecord 勤怠データ
+	 * @throws KadaiException
+	 */
 	private static void checkRecord(String oneRecord) throws KadaiException {
 
 		// BOM除去
@@ -566,6 +575,13 @@ public class Kadai {
 		}
 	}
 
+	/**
+	 * validate
+	 *
+	 * @param workTimeMap 勤怠データ
+	 * @param count カラム数
+	 * @throws KadaiException
+	 */
 	private static void validate(Map<String, String> workTimeMap, int count) throws KadaiException {
 
 		// 要素が3以外の場合エラー
@@ -573,17 +589,17 @@ public class Kadai {
 			throw new KadaiException(KadaiConstants.INPUT_FILE_FORMAT_ERROR);
 		}
 
+		List<String> keyList = new ArrayList<String>();
+		keyList.add(KadaiConstants.DATE);
+		keyList.add(KadaiConstants.START);
+		keyList.add(KadaiConstants.END);
+
 		for (String key : workTimeMap.keySet()) {
 			// 日付のnull・空白チェック
 			if (KadaiUtil.validate(workTimeMap.get(key))
 					|| workTimeMap.get(key).equals("null")) {
 				throw new KadaiException(KadaiConstants.INPUT_NULL_OR_BLANK_ERROR);
 			}
-
-			List<String> keyList = new ArrayList<String>();
-			keyList.add("date");
-			keyList.add("start");
-			keyList.add("end");
 
 			if (!keyList.contains(key)) {
 				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
@@ -593,9 +609,9 @@ public class Kadai {
 		try {
 			// 日付として成立する値であるかを調べる
 			DATE_FORMAT.setLenient(false);
-			DATE_FORMAT.parse(workTimeMap.get("date"));
+			DATE_FORMAT.parse(workTimeMap.get(KadaiConstants.DATE));
 
-			Matcher match = KadaiConstants.DATE_PATTERN.matcher(workTimeMap.get("date"));
+			Matcher match = KadaiConstants.DATE_PATTERN.matcher(workTimeMap.get(KadaiConstants.DATE));
 
 			// 数字以外の文字が含まれている場合エラー
 			if (!match.matches()) {

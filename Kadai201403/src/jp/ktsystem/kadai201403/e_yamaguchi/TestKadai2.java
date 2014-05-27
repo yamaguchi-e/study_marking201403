@@ -48,7 +48,7 @@ public class TestKadai2 extends TestCase {
 	}
 
 	public void testCase3() {
-		execute(SAMPLE_RESULT_PATH + "Case3.txt", SAMPLE_OUTPUT_PATH + "Case3\\");
+		executeInvalid(SAMPLE_RESULT_PATH + "Case3.txt", SAMPLE_OUTPUT_PATH + "Case3\\", "2");
 	}
 
 	public void testCase4() {
