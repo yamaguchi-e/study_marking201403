@@ -110,6 +110,9 @@ public class KadaiConstants {
 	/** BLANK_CHAR 空文字 */
 	public static final String BLANK_CHAR = "";
 
+	/** SPACE 空白 */
+	public static final String SPACE = " ";
+
 	/** QUOTATION クォーテーション */
 	public static final String QUOTATION = "\"";
 

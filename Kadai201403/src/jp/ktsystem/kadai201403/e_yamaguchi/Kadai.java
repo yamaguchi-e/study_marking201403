@@ -137,19 +137,22 @@ public class Kadai {
 				int count = 0;
 
 				// コロンの位置
-				int index = oneRecord.indexOf(KadaiConstants.COLON);
+				int index = oneRecord.replace(KadaiConstants.SPACE,
+						KadaiConstants.BLANK_CHAR).indexOf(KadaiConstants.COLON);
+
+				if (oneRecord.endsWith(KadaiConstants.COMMA)) {
+					// 行の末尾がカンマの場合削除
+					oneRecord = oneRecord.substring(0, oneRecord.length()-1);
+				}
 
 				if (oneRecord.startsWith(KadaiConstants.START_BRACE)
 						|| oneRecord.startsWith(KadaiConstants.END_BRACE)) {
 					continue;
 				} else {
-					if (oneRecord.endsWith(KadaiConstants.COMMA)) {
-						// 行の末尾がカンマの場合削除
-						oneRecord = oneRecord.substring(0, oneRecord.length()-2);
-					}
-
-					if (!"[ {".equals(oneRecord.substring(index+1, index+2))
-							|| !oneRecord.endsWith("} ]")) {
+					if (!"[{".equals(oneRecord.replace(KadaiConstants.SPACE,
+							KadaiConstants.BLANK_CHAR).substring(index+1, index+3))
+							|| !oneRecord.replace(KadaiConstants.SPACE,
+									KadaiConstants.BLANK_CHAR).endsWith("}]")) {
 						throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 					}
 				}
@@ -163,6 +166,8 @@ public class Kadai {
 
 						// BOM、制御文字チェック
 						checkRecord(oneRecord);
+
+						index = oneRecord.indexOf(KadaiConstants.COLON);
 
 						// 年月を取得
 						month = KadaiUtil.obtainDate(oneRecord, 0, index- 2);
@@ -183,6 +188,11 @@ public class Kadai {
 
 							// 1日分のデータを取得
 							String data = workTime.substring(index + 2, workTime.length()-1);
+
+							if (!KadaiConstants.START_BRACE.equals(data.replace(
+									KadaiConstants.SPACE, KadaiConstants.BLANK_CHAR).substring(0, 1))) {
+								throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
+							}
 
 							oneWorkDateMap.put(date, data);
 							oneWorkDateList.add(date);
