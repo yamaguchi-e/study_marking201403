@@ -56,6 +56,7 @@ public class KadaiUtil {
 
 	/**
 	 * エラーコードをListにセット
+	 * <br>
 	 * @param errorCode エラーコード
 	 * @param answerList 答えを返すList
 	 */

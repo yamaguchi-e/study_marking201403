@@ -38,7 +38,7 @@ public class Kadai {
 	 * @return 勤務時間
 	 * @throws KadaiException
 	 */
-	private static String calcWorkTime(String aStartTime, String aEndTime) throws KadaiException {
+	public static String calcWorkTime(String aStartTime, String aEndTime) throws KadaiException {
 
 		// 時刻null, 空文字チェック
 		if (KadaiUtil.validate(aStartTime) || KadaiUtil.validate(aEndTime)) {
@@ -115,7 +115,6 @@ public class Kadai {
 		Map<String, List<WorkTime>> answerMap = new HashMap<String, List<WorkTime>>();
 
 		BufferedReader bufferedReader = null;
-		String month = null;
 
 		try {
 			bufferedReader = new BufferedReader(new InputStreamReader(
@@ -123,18 +122,9 @@ public class Kadai {
 			Map<String, String> workTimeMap = new HashMap<String, String>();
 
 			String oneRecord = null;
-			String monthData = null;
 
 			// 入力ファイルを１行ずつ読み込む
 			while (null != (oneRecord = bufferedReader.readLine())) {
-
-				List<WorkTime> answerList = new ArrayList<WorkTime>();
-
-				// 勤務時間の累計
-				int sumWorkTime = 0;
-
-				// カラム数
-				int count = 0;
 
 				// コロンの位置
 				int index = oneRecord.replace(KadaiConstants.SPACE,
@@ -157,6 +147,11 @@ public class Kadai {
 					}
 				}
 
+				List<WorkTime> answerList = new ArrayList<WorkTime>();
+				String month = null;
+
+				// 勤務時間の累計
+				int sumWorkTime = 0;
 				try {
 					if (!oneRecord.startsWith(KadaiConstants.END_BRACE)) {
 						// 改行または空白の場合は次の行へ
@@ -173,7 +168,7 @@ public class Kadai {
 						month = KadaiUtil.obtainDate(oneRecord, 0, index- 2);
 
 						// 1か月分のデータを取得
-						monthData = oneRecord.substring(index +4, oneRecord.length() -3);
+						String monthData = oneRecord.substring(index +4, oneRecord.length() -3);
 
 						String[] workTimeInfo = monthData.split(KadaiConstants.DELIMITER, -1);
 
@@ -200,6 +195,9 @@ public class Kadai {
 
 						// 日付の順にソート
 						Collections.sort(oneWorkDateList, new DateComparator());
+
+						// カラム数
+						int count = 0;
 
 						for(String oneWorkDay : oneWorkDateList) {
 
@@ -302,7 +300,7 @@ public class Kadai {
 	 * @return 勤務時間のリスト
 	 * @throws KadaiException
 	 */
-	private static List<WorkTime> readWorkTimeFile(String anInputPath) throws KadaiException {
+	public static List<WorkTime> readWorkTimeFile(String anInputPath) throws KadaiException {
 
 		// 行ごとに勤務時間を入れるリスト
 		List<WorkTime> answerList = new ArrayList<WorkTime>();
@@ -401,7 +399,7 @@ public class Kadai {
 	 * @param answerList 勤務時間のリスト
 	 * @throws KadaiException
 	 */
-	private static void writeWorkTimeFile(String anOutputPath, List<WorkTime> answerList) throws KadaiException {
+	public static void writeWorkTimeFile(String anOutputPath, List<WorkTime> answerList) throws KadaiException {
 		BufferedWriter bufferedWriter = null;
 
 		try {
