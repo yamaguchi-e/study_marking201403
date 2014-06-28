@@ -155,8 +155,8 @@ public class KadaiConstants {
 	/**  OUTPUT_FORMAT  出力フォーマット  */
 	public static final String OUTPUT_FORMAT = "{\"date\":%s,\"workTime\":%s,\"total\":%s}";
 
-	/**  ITEM_NAME_START_POSITION  項目名開始位置  */
-	public static final int ITEM_NAME_START_POSITION = 1;
+	/**  ITEM_NAME_START_POSITION  項目名開始位置(lv2)  */
+	public static final int LV2_ITEM_NAME_START_POSITION = 0;
 
 	/**  ITEM_NAME_END_POSITION  項目名終了位置  */
 	public static final int ITEM_NAME_END_POSITION = 2;
