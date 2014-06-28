@@ -279,7 +279,7 @@ public class Kadai {
 					throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 				}
 
-			// 日付がyyyyMMの形式で入力されていない場合エラー
+			// 日付がyyyyMMddの形式で入力されていない場合エラー
 			} catch (ParseException pe) {
 				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 
@@ -327,7 +327,7 @@ public class Kadai {
 					 if (!oneRecord.contains(KadaiConstants.END_BRACE)) {
 
 						 // 改行、空白の場合次の行へ
-						if (0 == oneRecord.trim().length()) {
+						if (oneRecord.trim().isEmpty()) {
 							continue;
 						}
 
