@@ -71,7 +71,7 @@ public class Kadai {
 
 		// 勤務時間 = (退社時刻 - 出社時刻) - 休憩時間
 		long passTime = (end.getTime() - start.getTime())
-				/ KadaiConstants.MINUTE_CHANGE / KadaiConstants.MINUTE_LIMIT - (firstRestTime + secondRestTime);
+				/ 1000 / 60 - (firstRestTime + secondRestTime);
 
 		return String.valueOf(passTime);
 	}
@@ -478,10 +478,10 @@ public class Kadai {
 		}
 
 		// 時刻の分部分が60分以上の場合エラー
-		if (KadaiConstants.MINUTE_LIMIT <= Integer.parseInt(aStartTime.substring(
+		if (60 <= Integer.parseInt(aStartTime.substring(
 				KadaiConstants.TIME_COUNT, KadaiConstants.MINUTE_COUNT))
-				|| KadaiConstants.MINUTE_LIMIT <= Integer.parseInt(aEndTime
-						.substring(KadaiConstants.TIME_COUNT, KadaiConstants.MINUTE_COUNT))) {
+				|| 60 <= Integer.parseInt(aEndTime.substring(
+						KadaiConstants.TIME_COUNT, KadaiConstants.MINUTE_COUNT))) {
 			throw new KadaiException(KadaiConstants.INPUT_TIME_CONTROL_ERROR);
 		}
 	}
@@ -538,12 +538,10 @@ public class Kadai {
 		// 休憩時間を取っている場合
 		if (aStartTime.before(restEndTime) && aEndTime.after(restStartTime)) {
 			// 退社時刻 - 休憩開始時間
-			restTime = (aEndTime.getTime() - restStartTime.getTime())
-					/ KadaiConstants.MINUTE_CHANGE / KadaiConstants.MINUTE_LIMIT;
+			restTime = (aEndTime.getTime() - restStartTime.getTime()) / 1000 / 60;
 
 			// 休憩終了時間 - 休憩開始時間
-			long restMinute = (restEndTime.getTime() - restStartTime.getTime())
-					/ KadaiConstants.MINUTE_CHANGE / KadaiConstants.MINUTE_LIMIT;
+			long restMinute = (restEndTime.getTime() - restStartTime.getTime()) / 1000 / 60;
 
 			if (restMinute < restTime) {
 				restTime = restMinute;
@@ -552,8 +550,7 @@ public class Kadai {
 			// 出社時刻が休憩時間より後の場合
 			if (aStartTime.after(restStartTime)) {
 				// 出社時刻 - 休憩開始時間
-				long startRestTime = (aStartTime.getTime() - restStartTime.getTime())
-						/ KadaiConstants.MINUTE_CHANGE / KadaiConstants.MINUTE_LIMIT;
+				long startRestTime = (aStartTime.getTime() - restStartTime.getTime()) / 1000 / 60;
 				restTime -= startRestTime;
 			}
 		}

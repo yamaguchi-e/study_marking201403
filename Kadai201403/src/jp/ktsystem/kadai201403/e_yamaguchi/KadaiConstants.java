@@ -92,9 +92,6 @@ public class KadaiConstants {
 	/**  SECOND_REST_TIME_END  休憩終了時間  */
 	public static final Date SECOND_REST_TIME_END = KadaiUtil.changeTime("1830");
 
-	/**  MINUTE_LIMIT 時間(分)の限度  */
-	public static final int MINUTE_LIMIT = 60;
-
 	/**  DELIMITER 区切り  */
 	public static final String DELIMITER = ",";
 
@@ -148,9 +145,6 @@ public class KadaiConstants {
 
 	/**  WORK_END_TIME  退社時刻  */
 	public static final int WORK_END_TIME = 2;
-
-	/**  MINUTE_CHANGE  分単位に変換  */
-	public static final int MINUTE_CHANGE = 1000;
 
 	/**  OUTPUT_FORMAT  出力フォーマット  */
 	public static final String OUTPUT_FORMAT = "{\"date\":%s,\"workTime\":%s,\"total\":%s}";
