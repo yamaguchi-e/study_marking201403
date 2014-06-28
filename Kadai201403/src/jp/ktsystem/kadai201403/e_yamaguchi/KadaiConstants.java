@@ -155,15 +155,15 @@ public class KadaiConstants {
 	/**  OUTPUT_FORMAT  出力フォーマット  */
 	public static final String OUTPUT_FORMAT = "{\"date\":%s,\"workTime\":%s,\"total\":%s}";
 
-	/** YEAR_MONTH_START_POSITION 年月開始位置 */
-	public static final int YEAR_MONTH_START_POSITION = 0;
+	/** DATE_START_POSITION 日付開始位置 */
+	public static final int DATE_START_POSITION = 1;
 
-	/** YEAR_MONTH_END_POSITION 年月終了位置 */
-	public static final int YEAR_MONTH_END_POSITION = 2;
+	/** DATE_END_POSITION 日付終了位置 */
+	public static final int DATE_END_POSITION = 3;
 
-	/** MONTH_DATA_START_POSITION 1か月分データ開始位置 */
-	public static final int MONTH_DATA_START_POSITION = 4;
+	/** ONE_DATE_DATA_START_POSITION 1日分データ開始位置 */
+	public static final int ONE_DATE_DATA_START_POSITION = 2;
 
-	/** MONTH_DATA_END_POSITION 1か月分データ終了位置 */
-	public static final int MONTH_DATA_END_POSITION = 3;
+	/** ONE_DATE_DATA_END_POSITION 1日分データ終了位置 */
+	public static final int ONE_DATE_DATA_END_POSITION = 1;
 }
