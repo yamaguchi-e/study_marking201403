@@ -272,6 +272,13 @@ public class Kadai {
 				MONTH_FORMAT.setLenient(false);
 				MONTH_FORMAT.parse(key);
 
+				Matcher match = KadaiConstants.MONTH_PATTERN.matcher(key);
+
+				// 数字以外の文字が含まれている場合エラー
+				if (!match.matches()) {
+					throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
+				}
+
 			// 日付がyyyyMMddの形式で入力されていない場合エラー
 			} catch (ParseException pe) {
 				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
@@ -613,13 +620,6 @@ public class Kadai {
 			// 日付として成立する値であるかを調べる
 			DATE_FORMAT.setLenient(false);
 			DATE_FORMAT.parse(workTimeMap.get(KadaiConstants.DATE));
-
-			Matcher match = KadaiConstants.DATE_PATTERN.matcher(workTimeMap.get(KadaiConstants.DATE));
-
-			// 数字以外の文字が含まれている場合エラー
-			if (!match.matches()) {
-				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
-			}
 
 		// 日付がyyyyMMddの形式で入力されていない場合エラー
 		} catch (ParseException pe) {
