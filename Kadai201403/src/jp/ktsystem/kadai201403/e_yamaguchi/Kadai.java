@@ -178,6 +178,7 @@ public class Kadai {
 						String[] workTimeInfo = monthData.split(KadaiConstants.DELIMITER, -1);
 
 						Map<String, String> oneWorkDateMap = new HashMap<String, String>();
+						List<String> oneWorkDateList = new ArrayList<String>();
 
 						for (String workTime : workTimeInfo) {
 							index = workTime.indexOf(KadaiConstants.COLON);
@@ -194,13 +195,13 @@ public class Kadai {
 							}
 
 							oneWorkDateMap.put(date, data);
+							oneWorkDateList.add(date);
 						}
 
 						// 日付の順にソート
-						List<String> _oneWorkDateList = (List<String>) oneWorkDateMap.values();
-						Collections.sort(_oneWorkDateList, new DateComparator());
+						Collections.sort(oneWorkDateList, new DateComparator());
 
-						for(String oneWorkDay : oneWorkDateMap.values()) {
+						for(String oneWorkDay : oneWorkDateList) {
 
 							// カンマごとに区切る
 							String[] workDayInfo = oneWorkDateMap.get(oneWorkDay).split(KadaiConstants.COMMA, -1);
