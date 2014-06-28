@@ -26,6 +26,8 @@ import java.util.regex.Matcher;
  */
 public class Kadai {
 
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
+	private static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyyMM");
 	private static boolean checkLv2Flag = false;
 
 	/**
@@ -243,7 +245,8 @@ public class Kadai {
 						}
 					}
 				} catch (KadaiException ke) {
-					KadaiUtil.setErrorCode(ke.getErrorCode(), answerList);
+					WorkTime workTime = KadaiUtil.setErrorCode(ke.getErrorCode());
+					answerList.add(workTime);
 					answerMap.put(month, answerList);
 
 					// エラーが発生した場合、処理打ち切り
@@ -265,7 +268,6 @@ public class Kadai {
 		}
 
 		for (String key : answerMap.keySet()) {
-			SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyyMM");
 			try {
 				// 日付として成立する値であるかを調べる
 				MONTH_FORMAT.setLenient(false);
@@ -371,7 +373,8 @@ public class Kadai {
 					workTimeMap.clear();
 					count = 0;
 				} catch (KadaiException ke) {
-					KadaiUtil.setErrorCode(ke.getErrorCode(), answerList);
+					WorkTime workTime = KadaiUtil.setErrorCode(ke.getErrorCode());
+					answerList.add(workTime);
 
 					// エラーが発生した場合、処理打ち切り
 					break;
@@ -615,7 +618,6 @@ public class Kadai {
 			}
 		}
 
-		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
 		try {
 			// 日付として成立する値であるかを調べる
 			DATE_FORMAT.setLenient(false);
