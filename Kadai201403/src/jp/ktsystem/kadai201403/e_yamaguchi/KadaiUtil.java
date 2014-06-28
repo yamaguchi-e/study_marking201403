@@ -74,7 +74,7 @@ public class KadaiUtil {
 	 * @return 日付
 	 */
 	public static String obtainDate(String data, int start) {
-		return data.replace(KadaiConstants.QUOTATION, KadaiConstants.BLANK_CHAR).substring(start).trim();
+		return data.replace(KadaiConstants.DATE_COLUMN, KadaiConstants.BLANK_CHAR).substring(start).trim();
 	}
 
 	/**
@@ -86,6 +86,6 @@ public class KadaiUtil {
 	 * @return 日付
 	 */
 	public static String obtainDate(String data, int start, int end) {
-		return data.replace(KadaiConstants.QUOTATION, KadaiConstants.BLANK_CHAR).substring(start, end).trim();
+		return data.replace(KadaiConstants.DATE_COLUMN, KadaiConstants.BLANK_CHAR).substring(start, end).trim();
 	}
 }
