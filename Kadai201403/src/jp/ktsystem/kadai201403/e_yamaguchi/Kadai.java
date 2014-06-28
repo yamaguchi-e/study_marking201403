@@ -184,12 +184,10 @@ public class Kadai {
 							index = workTime.indexOf(KadaiConstants.COLON);
 
 							// 日にちを取得
-							String date = KadaiUtil.obtainDate(workTime, KadaiConstants.DATE_START_POSITION,
-									index - KadaiConstants.DATE_END_POSITION);
+							String date = KadaiUtil.obtainDate(workTime, 1, index - 3);
 
 							// 1日分のデータを取得
-							String data = workTime.substring(index + KadaiConstants.ONE_DATE_DATA_START_POSITION,
-									workTime.length() - KadaiConstants.ONE_DATE_DATA_END_POSITION);
+							String data = workTime.substring(index + 2, workTime.length()-1);
 
 							if (!KadaiConstants.START_BRACE.equals(data.replace(
 									KadaiConstants.SPACE, KadaiConstants.BLANK_CHAR).substring(0, 1))) {
@@ -214,8 +212,9 @@ public class Kadai {
 								index = workDay.indexOf(KadaiConstants.COLON);
 
 								// 勤務開始時間、終了時間を取得
-								String key = KadaiUtil.obtainDate(workDay, 1, index -2);
-								String value = KadaiUtil.obtainDate(workDay, index -1);
+								String key = KadaiUtil.obtainDate(workDay, KadaiConstants.ITEM_NAME_START_POSITION,
+										index - KadaiConstants.ITEM_NAME_END_POSITION);
+								String value = KadaiUtil.obtainDate(workDay, index - KadaiConstants.VALUE_START_POSITION);
 								workTimeMap.put(key, value);
 								count++;
 							}
