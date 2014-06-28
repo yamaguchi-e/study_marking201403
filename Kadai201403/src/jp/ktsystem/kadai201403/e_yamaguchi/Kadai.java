@@ -115,6 +115,7 @@ public class Kadai {
 		Map<String, List<WorkTime>> answerMap = new HashMap<String, List<WorkTime>>();
 
 		BufferedReader bufferedReader = null;
+		String month = null;
 
 		try {
 			bufferedReader = new BufferedReader(new InputStreamReader(
@@ -122,9 +123,18 @@ public class Kadai {
 			Map<String, String> workTimeMap = new HashMap<String, String>();
 
 			String oneRecord = null;
+			String monthData = null;
 
 			// 入力ファイルを１行ずつ読み込む
 			while (null != (oneRecord = bufferedReader.readLine())) {
+
+				List<WorkTime> answerList = new ArrayList<WorkTime>();
+
+				// 勤務時間の累計
+				int sumWorkTime = 0;
+
+				// カラム数
+				int count = 0;
 
 				// コロンの位置
 				int index = oneRecord.replace(KadaiConstants.SPACE,
@@ -138,20 +148,16 @@ public class Kadai {
 				if (oneRecord.startsWith(KadaiConstants.START_BRACE)
 						|| oneRecord.startsWith(KadaiConstants.END_BRACE)) {
 					continue;
-				} else {
-					if (!"[{".equals(oneRecord.replace(KadaiConstants.SPACE,
-							KadaiConstants.BLANK_CHAR).substring(index+1, index+3))
-							|| !oneRecord.replace(KadaiConstants.SPACE,
-									KadaiConstants.BLANK_CHAR).endsWith("}]")) {
-						throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
-					}
 				}
 
-				List<WorkTime> answerList = new ArrayList<WorkTime>();
-				String month = null;
+				// 日付囲みで囲まれてない場合エラー
+				if (!"[{".equals(oneRecord.replace(KadaiConstants.SPACE,
+						KadaiConstants.BLANK_CHAR).substring(index+1, index+3))
+						|| !oneRecord.replace(KadaiConstants.SPACE,
+								KadaiConstants.BLANK_CHAR).endsWith("}]")) {
+					throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
+				}
 
-				// 勤務時間の累計
-				int sumWorkTime = 0;
 				try {
 					if (!oneRecord.startsWith(KadaiConstants.END_BRACE)) {
 						// 改行または空白の場合は次の行へ
@@ -168,7 +174,7 @@ public class Kadai {
 						month = KadaiUtil.obtainDate(oneRecord, 0, index- 2);
 
 						// 1か月分のデータを取得
-						String monthData = oneRecord.substring(index +4, oneRecord.length() -3);
+						monthData = oneRecord.substring(index +4, oneRecord.length() -3);
 
 						String[] workTimeInfo = monthData.split(KadaiConstants.DELIMITER, -1);
 
@@ -195,9 +201,6 @@ public class Kadai {
 
 						// 日付の順にソート
 						Collections.sort(oneWorkDateList, new DateComparator());
-
-						// カラム数
-						int count = 0;
 
 						for(String oneWorkDay : oneWorkDateList) {
 
