@@ -71,7 +71,7 @@ public class Kadai {
 
 		// 勤務時間 = (退社時刻 - 出社時刻) - 休憩時間
 		long passTime = (end.getTime() - start.getTime())
-				/ 1000 / 60 - (firstRestTime + secondRestTime);
+				/ KadaiConstants.MINUTE_CHANGE / KadaiConstants.MINUTE - (firstRestTime + secondRestTime);
 
 		return String.valueOf(passTime);
 	}
@@ -138,27 +138,28 @@ public class Kadai {
 
 				// コロンの位置
 				int index = oneRecord.replace(KadaiConstants.SPACE,
-						KadaiConstants.BLANK_CHAR).indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
+						KadaiConstants.BLANK_CHAR).indexOf(KadaiConstants.COLON);
 
-				if (oneRecord.endsWith(KadaiConstants.DELIMITER)) {
+				if (oneRecord.endsWith(KadaiConstants.COMMA)) {
 					// 行の末尾がカンマの場合削除
 					oneRecord = oneRecord.substring(0, oneRecord.length()-1);
 				}
 
-				if (oneRecord.startsWith(KadaiConstants.DATE_START)
-						|| oneRecord.startsWith(KadaiConstants.DATE_END)) {
+				if (oneRecord.startsWith(KadaiConstants.START_BRACE)
+						|| oneRecord.startsWith(KadaiConstants.END_BRACE)) {
 					continue;
 				} else {
-					if (!"[{".equals(oneRecord.replace(KadaiConstants.SPACE,
-							KadaiConstants.BLANK_CHAR).substring(index+1, index+3))
+					if (!KadaiConstants.COLUMN_START.equals(oneRecord.replace(KadaiConstants.SPACE,
+							KadaiConstants.BLANK_CHAR).substring(index + KadaiConstants.COLUMN_POSITION_START,
+									index + KadaiConstants.COLUMN_POSITION_END))
 							|| !oneRecord.replace(KadaiConstants.SPACE,
-									KadaiConstants.BLANK_CHAR).endsWith("}]")) {
+									KadaiConstants.BLANK_CHAR).endsWith(KadaiConstants.COLUMN_END)) {
 						throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 					}
 				}
 
 				try {
-					if (!oneRecord.startsWith(KadaiConstants.DATE_END)) {
+					if (!oneRecord.startsWith(KadaiConstants.END_BRACE)) {
 						// 改行または空白の場合は次の行へ
 						if (0 == oneRecord.trim().length()) {
 							continue;
@@ -167,7 +168,7 @@ public class Kadai {
 						// BOM、制御文字チェック
 						checkRecord(oneRecord);
 
-						index = oneRecord.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
+						index = oneRecord.indexOf(KadaiConstants.COLON);
 
 						// 年月を取得
 						month = KadaiUtil.obtainDate(oneRecord, 0, index- 2);
@@ -175,13 +176,13 @@ public class Kadai {
 						// 1か月分のデータを取得
 						monthData = oneRecord.substring(index +4, oneRecord.length() -3);
 
-						String[] workTimeInfo = monthData.split(KadaiConstants.DATE_DELIMITER, -1);
+						String[] workTimeInfo = monthData.split(KadaiConstants.DELIMITER, -1);
 
 						Map<String, String> oneWorkDateMap = new HashMap<String, String>();
 						List<String> oneWorkDateList = new ArrayList<String>();
 
 						for (String workTime : workTimeInfo) {
-							index = workTime.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
+							index = workTime.indexOf(KadaiConstants.COLON);
 
 							// 日にちを取得
 							String date = KadaiUtil.obtainDate(workTime, 1, index - 3);
@@ -189,7 +190,7 @@ public class Kadai {
 							// 1日分のデータを取得
 							String data = workTime.substring(index + 2, workTime.length()-1);
 
-							if (!KadaiConstants.DATE_START.equals(data.replace(
+							if (!KadaiConstants.START_BRACE.equals(data.replace(
 									KadaiConstants.SPACE, KadaiConstants.BLANK_CHAR).substring(0, 1))) {
 								throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 							}
@@ -204,12 +205,12 @@ public class Kadai {
 						for(String oneWorkDay : oneWorkDateList) {
 
 							// カンマごとに区切る
-							String[] workDayInfo = oneWorkDateMap.get(oneWorkDay).split(KadaiConstants.DELIMITER, -1);
+							String[] workDayInfo = oneWorkDateMap.get(oneWorkDay).split(KadaiConstants.COMMA, -1);
 							workTimeMap.put(KadaiConstants.DATE, oneWorkDay);
 							count++;
 
 							for (String workDay : workDayInfo) {
-								index = workDay.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
+								index = workDay.indexOf(KadaiConstants.COLON);
 
 								// 勤務開始時間、終了時間を取得
 								String key = KadaiUtil.obtainDate(workDay, 1, index -2);
@@ -324,7 +325,7 @@ public class Kadai {
 			// 入力ファイルを１行ずつ読み込む
 			while (null != (oneRecord = bufferedReader.readLine())) {
 				try {
-					 if (!oneRecord.contains(KadaiConstants.DATE_END)) {
+					 if (!oneRecord.contains(KadaiConstants.END_BRACE)) {
 
 						 // 改行、空白の場合次の行へ
 						if (0 == oneRecord.trim().length()) {
@@ -334,14 +335,14 @@ public class Kadai {
 						// BOM、制御文字チェック
 						checkRecord(oneRecord);
 
-						if (oneRecord.contains(KadaiConstants.DATE_START)) {
+						if (oneRecord.contains(KadaiConstants.START_BRACE)) {
 							continue;
 						} else {
-							oneRecord = oneRecord.replace(KadaiConstants.DELIMITER, KadaiConstants.BLANK_CHAR);
+							oneRecord = oneRecord.replace(KadaiConstants.COMMA, KadaiConstants.BLANK_CHAR);
 						}
 
 						try {
-							int index = oneRecord.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
+							int index = oneRecord.indexOf(KadaiConstants.COLON);
 							String key = KadaiUtil.obtainDate(oneRecord, 0, index -2);
 							String value = KadaiUtil.obtainDate(oneRecord, index -1);
 
@@ -408,7 +409,7 @@ public class Kadai {
 			bufferedWriter = new BufferedWriter(new OutputStreamWriter(
 					new FileOutputStream(anOutputPath, true), KadaiConstants.CHARACTER_CODE));
 
-			bufferedWriter.write(KadaiConstants.ATTENDANCE_START);
+			bufferedWriter.write(KadaiConstants.DATE_START_BRACE);
 			bufferedWriter.newLine();
 
 			String date = KadaiConstants.BLANK_CHAR;
@@ -434,13 +435,13 @@ public class Kadai {
 						workTime.getWorkDate(), workTime.getWorkTime(), workTime.getSumWorkTime()));
 
 				if (!workTime.equals(answerList.get(answerList.size()-1))) {
-					bufferedWriter.write(KadaiConstants.DELIMITER);
+					bufferedWriter.write(KadaiConstants.COMMA);
 				}
 
 				bufferedWriter.newLine();
 
 			}
-			bufferedWriter.write(KadaiConstants.ATTENDANCE_END);
+			bufferedWriter.write(KadaiConstants.DATE_END_BRACE);
 			bufferedWriter.newLine();
 			bufferedWriter.flush();
 
@@ -469,8 +470,8 @@ public class Kadai {
 	 */
 	private static void checkTime(String aStartTime, String aEndTime) throws KadaiException {
 
-		Matcher startMatch = KadaiConstants.HOUR_PATTERN.matcher(aStartTime);
-		Matcher endMatch = KadaiConstants.HOUR_PATTERN.matcher(aEndTime);
+		Matcher startMatch = KadaiConstants.PATTERN.matcher(aStartTime);
+		Matcher endMatch = KadaiConstants.PATTERN.matcher(aEndTime);
 
 		// 数字以外の文字が含まれている場合エラー
 		if (!startMatch.matches() || !endMatch.matches()) {
@@ -478,10 +479,10 @@ public class Kadai {
 		}
 
 		// 時刻の分部分が60分以上の場合エラー
-		if (60 <= Integer.parseInt(aStartTime.substring(
+		if (KadaiConstants.MINUTE <= Integer.parseInt(aStartTime.substring(
 				KadaiConstants.TIME_COUNT, KadaiConstants.MINUTE_COUNT))
-				|| 60 <= Integer.parseInt(aEndTime.substring(
-						KadaiConstants.TIME_COUNT, KadaiConstants.MINUTE_COUNT))) {
+				|| KadaiConstants.MINUTE <= Integer.parseInt(aEndTime
+						.substring(KadaiConstants.TIME_COUNT, KadaiConstants.MINUTE_COUNT))) {
 			throw new KadaiException(KadaiConstants.INPUT_TIME_CONTROL_ERROR);
 		}
 	}
@@ -538,10 +539,12 @@ public class Kadai {
 		// 休憩時間を取っている場合
 		if (aStartTime.before(restEndTime) && aEndTime.after(restStartTime)) {
 			// 退社時刻 - 休憩開始時間
-			restTime = (aEndTime.getTime() - restStartTime.getTime()) / 1000 / 60;
+			restTime = (aEndTime.getTime() - restStartTime.getTime())
+					/ KadaiConstants.MINUTE_CHANGE / KadaiConstants.MINUTE;
 
 			// 休憩終了時間 - 休憩開始時間
-			long restMinute = (restEndTime.getTime() - restStartTime.getTime()) / 1000 / 60;
+			long restMinute = (restEndTime.getTime() - restStartTime.getTime())
+					/ KadaiConstants.MINUTE_CHANGE / KadaiConstants.MINUTE;
 
 			if (restMinute < restTime) {
 				restTime = restMinute;
@@ -550,7 +553,8 @@ public class Kadai {
 			// 出社時刻が休憩時間より後の場合
 			if (aStartTime.after(restStartTime)) {
 				// 出社時刻 - 休憩開始時間
-				long startRestTime = (aStartTime.getTime() - restStartTime.getTime()) / 1000 / 60;
+				long startRestTime = (aStartTime.getTime() - restStartTime.getTime())
+						/ KadaiConstants.MINUTE_CHANGE / KadaiConstants.MINUTE;
 				restTime -= startRestTime;
 			}
 		}
