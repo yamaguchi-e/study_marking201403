@@ -13,8 +13,6 @@ import java.util.List;
  */
 public class KadaiUtil {
 
-	private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HHmm");
-
 	/**
 	 * 時間をDate型に変換
 	 * <br>
@@ -23,6 +21,7 @@ public class KadaiUtil {
 	 */
 	public static Date changeTime(String time) {
 
+		SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HHmm");
 		Date change = null;
 		try {
 			change = TIME_FORMAT.parse(time);

@@ -11,9 +11,10 @@ import java.util.Comparator;
  * @since 2014/04/05
  */
 public class DateComparator implements Comparator<String> {
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
 
 	public int compare(String arg0, String arg1) {
+		// インスタンスを毎回作成
+		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
 		try {
 			return DATE_FORMAT.parse(arg0).compareTo(DATE_FORMAT.parse(arg1));
 		} catch (ParseException e) {

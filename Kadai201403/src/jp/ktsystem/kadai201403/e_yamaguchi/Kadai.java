@@ -26,8 +26,6 @@ import java.util.regex.Matcher;
  */
 public class Kadai {
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
-	private static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyyMM");
 	private static boolean checkLv2Flag = false;
 
 	/**
@@ -267,6 +265,7 @@ public class Kadai {
 		}
 
 		for (String key : answerMap.keySet()) {
+			SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyyMM");
 			try {
 				// 日付として成立する値であるかを調べる
 				MONTH_FORMAT.setLenient(false);
@@ -342,9 +341,8 @@ public class Kadai {
 
 						try {
 							int index = oneRecord.indexOf(KadaiConstants.COLON);
-							String key = KadaiUtil.obtainDate(oneRecord, KadaiConstants.LV2_ITEM_NAME_START_POSITION,
-									index - KadaiConstants.ITEM_NAME_END_POSITION);
-							String value = KadaiUtil.obtainDate(oneRecord, index - KadaiConstants.VALUE_START_POSITION);
+							String key = KadaiUtil.obtainDate(oneRecord, 0, index -2);
+							String value = KadaiUtil.obtainDate(oneRecord, index -1);
 
 							workTimeMap.put(key, value);
 							count++;
@@ -617,6 +615,7 @@ public class Kadai {
 			}
 		}
 
+		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
 		try {
 			// 日付として成立する値であるかを調べる
 			DATE_FORMAT.setLenient(false);
