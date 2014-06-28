@@ -128,12 +128,6 @@ public class KadaiConstants {
 	/** DATE_END_BRACE 括弧終わり */
 	public static final String DATE_END_BRACE = "]";
 
-	/** COLUMN_START 文字囲み始まり */
-	public static final String COLUMN_START = "[{";
-
-	/** COLUMN_END 文字囲み終わり */
-	public static final String COLUMN_END = "}]";
-
 	/** DATE 日付 */
 	public static final String DATE = "date";
 
@@ -161,9 +155,15 @@ public class KadaiConstants {
 	/**  OUTPUT_FORMAT  出力フォーマット  */
 	public static final String OUTPUT_FORMAT = "{\"date\":%s,\"workTime\":%s,\"total\":%s}";
 
-	/** COLUMN_POSITION_START 開始文字囲み位置(始点) */
-	public static final int COLUMN_POSITION_START = 1;
+	/** YEAR_MONTH_START_POSITION 年月開始位置 */
+	public static final int YEAR_MONTH_START_POSITION = 0;
 
-	/** COLUMN_POSITION_START 開始文字囲み位置(終点) */
-	public static final int COLUMN_POSITION_END = 3;
+	/** YEAR_MONTH_END_POSITION 年月終了位置 */
+	public static final int YEAR_MONTH_END_POSITION = 2;
+
+	/** MONTH_DATA_START_POSITION 1か月分データ開始位置 */
+	public static final int MONTH_DATA_START_POSITION = 4;
+
+	/** MONTH_DATA_END_POSITION 1か月分データ終了位置 */
+	public static final int MONTH_DATA_END_POSITION = 3;
 }

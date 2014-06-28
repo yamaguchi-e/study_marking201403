@@ -149,11 +149,10 @@ public class Kadai {
 						|| oneRecord.startsWith(KadaiConstants.END_BRACE)) {
 					continue;
 				} else {
-					if (!KadaiConstants.COLUMN_START.equals(oneRecord.replace(KadaiConstants.SPACE,
-							KadaiConstants.BLANK_CHAR).substring(index + KadaiConstants.COLUMN_POSITION_START,
-									index + KadaiConstants.COLUMN_POSITION_END))
+					if (!"[{".equals(oneRecord.replace(KadaiConstants.SPACE,
+							KadaiConstants.BLANK_CHAR).substring(index+1, index+3))
 							|| !oneRecord.replace(KadaiConstants.SPACE,
-									KadaiConstants.BLANK_CHAR).endsWith(KadaiConstants.COLUMN_END)) {
+									KadaiConstants.BLANK_CHAR).endsWith("}]")) {
 						throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 					}
 				}
@@ -171,10 +170,12 @@ public class Kadai {
 						index = oneRecord.indexOf(KadaiConstants.COLON);
 
 						// 年月を取得
-						month = KadaiUtil.obtainDate(oneRecord, 0, index- 2);
+						month = KadaiUtil.obtainDate(oneRecord, KadaiConstants.YEAR_MONTH_START_POSITION,
+								index - KadaiConstants.YEAR_MONTH_END_POSITION);
 
 						// 1か月分のデータを取得
-						monthData = oneRecord.substring(index +4, oneRecord.length() -3);
+						monthData = oneRecord.substring(index + KadaiConstants.MONTH_DATA_START_POSITION,
+								oneRecord.length() - KadaiConstants.MONTH_DATA_END_POSITION);
 
 						String[] workTimeInfo = monthData.split(KadaiConstants.DELIMITER, -1);
 
