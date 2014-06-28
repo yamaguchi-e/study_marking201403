@@ -39,7 +39,7 @@ public class KadaiUtil {
 	 * @return boolean
 	 * @throws KadaiException
 	 */
-	public static boolean validate(String time) {
+	public static boolean validate(String time) throws KadaiException {
 		return null == time || time.isEmpty();
 	}
 
@@ -50,7 +50,7 @@ public class KadaiUtil {
 	 * @return boolean
 	 * @throws KadaiException
 	 */
-	public static boolean checkFile(String aFilePath) {
+	public static boolean checkFile(String aFilePath) throws KadaiException {
 		return null == aFilePath || aFilePath.isEmpty();
 	}
 

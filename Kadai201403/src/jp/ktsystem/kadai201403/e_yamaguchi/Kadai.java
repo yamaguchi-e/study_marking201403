@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 
 /**
@@ -266,13 +267,13 @@ public class Kadai {
 			}
 		}
 
-		for (String key : answerMap.keySet()) {
+		for (Entry<String, List<WorkTime>> entry : answerMap.entrySet()) {
 			try {
 				// 日付として成立する値であるかを調べる
 				MONTH_FORMAT.setLenient(false);
-				MONTH_FORMAT.parse(key);
+				MONTH_FORMAT.parse(entry.getKey());
 
-				Matcher match = KadaiConstants.MONTH_PATTERN.matcher(key);
+				Matcher match = KadaiConstants.MONTH_PATTERN.matcher(entry.getKey());
 
 				// 数字以外の文字が含まれている場合エラー
 				if (!match.matches()) {
@@ -291,7 +292,7 @@ public class Kadai {
 			checkLv2Flag = true;
 
 			// ファイル書き込み
-			writeWorkTimeFile(anOutputPath + key, answerMap.get(key));
+			writeWorkTimeFile(anOutputPath + entry.getKey(), answerMap.get(entry.getKey()));
 		}
 	}
 
@@ -604,14 +605,14 @@ public class Kadai {
 		keyList.add(KadaiConstants.START);
 		keyList.add(KadaiConstants.END);
 
-		for (String key : workTimeMap.keySet()) {
+		for (Entry<String, String> entry : workTimeMap.entrySet()) {
 			// 日付のnull・空白チェック
-			if (KadaiUtil.validate(workTimeMap.get(key))
-					|| workTimeMap.get(key).equals("null")) {
+			if (KadaiUtil.validate(workTimeMap.get(entry.getKey()))
+					|| workTimeMap.get(entry.getKey()).equals("null")) {
 				throw new KadaiException(KadaiConstants.INPUT_NULL_OR_BLANK_ERROR);
 			}
 
-			if (!keyList.contains(key)) {
+			if (!keyList.contains(entry.getKey())) {
 				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 			}
 		}
