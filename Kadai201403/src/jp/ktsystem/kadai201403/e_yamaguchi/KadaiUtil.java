@@ -3,6 +3,7 @@ package jp.ktsystem.kadai201403.e_yamaguchi;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <h3>時刻, ファイル名チェック</h3>
@@ -54,16 +55,14 @@ public class KadaiUtil {
 	}
 
 	/**
-	 * エラーコードをbeanにセット
-	 * <br>
+	 * エラーコードをListにセット
 	 * @param errorCode エラーコード
-	 * @return bean
+	 * @param answerList 答えを返すList
 	 */
-	public static WorkTime setErrorCode(String errorCode) {
+	public static void setErrorCode(String errorCode, List<WorkTime> answerList) {
 		WorkTime workTime = new WorkTime();
 		workTime.setErrorCode(errorCode);
-
-		return workTime;
+		answerList.add(workTime);
 	}
 
 	/**
