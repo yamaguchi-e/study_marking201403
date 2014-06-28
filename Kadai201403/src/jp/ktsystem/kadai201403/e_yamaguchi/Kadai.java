@@ -28,6 +28,7 @@ public class Kadai {
 
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
 	private static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyyMM");
+	private static boolean checkLv2Flag = false;
 
 	/**
 	 * 勤務時間の算出
@@ -271,13 +272,6 @@ public class Kadai {
 				MONTH_FORMAT.setLenient(false);
 				MONTH_FORMAT.parse(key);
 
-				Matcher match = KadaiConstants.MONTH_PATTERN.matcher(key);
-
-				// 数字以外の文字が含まれている場合エラー
-				if (!match.matches()) {
-					throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
-				}
-
 			// 日付がyyyyMMddの形式で入力されていない場合エラー
 			} catch (ParseException pe) {
 				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
@@ -287,8 +281,7 @@ public class Kadai {
 				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 			}
 
-			// 日付重複チェック
-			checkOverlapDate(answerMap, key);
+			checkLv2Flag = true;
 
 			// ファイル書き込み
 			writeWorkTimeFile(anOutputPath + key, answerMap.get(key));
@@ -411,7 +404,16 @@ public class Kadai {
 			bufferedWriter.write(KadaiConstants.DATE_START_BRACE);
 			bufferedWriter.newLine();
 
+			String date = KadaiConstants.BLANK_CHAR;
+
 			for (WorkTime workTime : answerList) {
+
+				// 日付が重複する場合はエラー
+				if(checkLv2Flag && date.equals(workTime.getWorkDate())) {
+					workTime.setErrorCode(KadaiConstants.OUTPUT_OVERLAP_DATE_ERROR);
+				}
+
+				date = workTime.getWorkDate();
 
 				if (!workTime.getErrorCode().isEmpty()) {
 					// エラーコード書き込み
@@ -626,25 +628,6 @@ public class Kadai {
 		// 日付として成立する値が設定されていない場合エラー
 		} catch (IllegalArgumentException iae) {
 			throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
-		}
-	}
-
-	/**
-	 * 日付重複チェック
-	 *
-	 * @param answerMap 勤怠データ
-	 * @param key 月
-	 * @throws KadaiException
-	 */
-	private static void checkOverlapDate(Map<String, List<WorkTime>> answerMap, String key) throws KadaiException {
-		String date = KadaiConstants.BLANK_CHAR;
-		for (WorkTime workTime : answerMap.get(key)) {
-
-			// 日付が重複する場合はエラー
-			if(date.equals(workTime.getWorkDate())) {
-				workTime.setErrorCode(KadaiConstants.OUTPUT_OVERLAP_DATE_ERROR);
-			}
-			date = workTime.getWorkDate();
 		}
 	}
 }
