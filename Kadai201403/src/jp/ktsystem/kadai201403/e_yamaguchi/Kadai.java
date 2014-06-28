@@ -148,14 +148,13 @@ public class Kadai {
 				if (oneRecord.startsWith(KadaiConstants.START_BRACE)
 						|| oneRecord.startsWith(KadaiConstants.END_BRACE)) {
 					continue;
-				}
-
-				// 日付囲みで囲まれてない場合エラー
-				if (!"[{".equals(oneRecord.replace(KadaiConstants.SPACE,
-						KadaiConstants.BLANK_CHAR).substring(index+1, index+3))
-						|| !oneRecord.replace(KadaiConstants.SPACE,
-								KadaiConstants.BLANK_CHAR).endsWith("}]")) {
-					throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
+				} else {
+					if (!"[{".equals(oneRecord.replace(KadaiConstants.SPACE,
+							KadaiConstants.BLANK_CHAR).substring(index+1, index+3))
+							|| !oneRecord.replace(KadaiConstants.SPACE,
+									KadaiConstants.BLANK_CHAR).endsWith("}]")) {
+						throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
+					}
 				}
 
 				try {
@@ -328,7 +327,7 @@ public class Kadai {
 					 if (!oneRecord.contains(KadaiConstants.END_BRACE)) {
 
 						 // 改行、空白の場合次の行へ
-						if (0 == oneRecord.trim().length()) {
+						if (oneRecord.trim().isEmpty()) {
 							continue;
 						}
 
