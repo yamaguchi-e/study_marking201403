@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -327,7 +328,7 @@ public class Kadai {
 					 if (!oneRecord.contains(KadaiConstants.END_BRACE)) {
 
 						 // 改行、空白の場合次の行へ
-						if (oneRecord.trim().isEmpty()) {
+						if (0 == oneRecord.trim().length()) {
 							continue;
 						}
 
@@ -433,7 +434,8 @@ public class Kadai {
 				bufferedWriter.write(String.format(KadaiConstants.OUTPUT_FORMAT,
 						workTime.getWorkDate(), workTime.getWorkTime(), workTime.getSumWorkTime()));
 
-				if (!workTime.equals(answerList.get(answerList.size()-1))) {
+				Iterator<WorkTime> iterator = answerList.iterator();
+				if (!iterator.hasNext()) {
 					bufferedWriter.write(KadaiConstants.COMMA);
 				}
 
