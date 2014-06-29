@@ -249,7 +249,7 @@ public class TestKadai1 extends TestCase {
 
 	public void testCase26() {
 		List<WorkTime> answerList = new ArrayList<WorkTime>();
-		answerList = setList(null, null, null, "1", answerList);
+		answerList = setList(null, null, null, "2", answerList);
 
 		execute(SAMPLE_RESULT_PATH + "Case26.txt", "Case26.txt", answerList);
 	}
@@ -347,7 +347,7 @@ public class TestKadai1 extends TestCase {
 
 	public void testCase40() {
 		List<WorkTime> answerList = new ArrayList<WorkTime>();
-		answerList = setList(null, null, null, "1", answerList);
+		answerList = setList(null, null, null, "2", answerList);
 
 		execute(SAMPLE_RESULT_PATH + "Case40.txt", "Case40.txt", answerList);
 	}

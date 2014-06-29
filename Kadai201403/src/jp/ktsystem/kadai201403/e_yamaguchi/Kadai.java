@@ -223,7 +223,8 @@ public class Kadai {
 								throw new KadaiException(KadaiConstants.INPUT_NULL_OR_BLANK_ERROR);
 							}
 
-							validate(workTimeMap, count);
+							// 日付とデータ数のチェック
+							checkDateAndDataCount(workTimeMap, count);
 
 							// 勤務時間の算出
 							String answer = calcWorkTime(workTimeMap.get(KadaiConstants.START),
@@ -327,8 +328,8 @@ public class Kadai {
 					 if (!oneRecord.contains(KadaiConstants.END_BRACE)) {
 
 						 // 改行、空白の場合次の行へ
-							if (0 == oneRecord.trim().length()) {
-								continue;
+						if (0 == oneRecord.trim().length()) {
+							continue;
 						}
 
 						// BOM、制御文字チェック
@@ -338,24 +339,23 @@ public class Kadai {
 							continue;
 						} else {
 							oneRecord = oneRecord.replace(KadaiConstants.COMMA, KadaiConstants.BLANK_CHAR);
-
-							 // 文字列が空文字の場合エラー
-							if (oneRecord.trim().isEmpty()) {
-								throw new KadaiException(KadaiConstants.INPUT_NULL_OR_BLANK_ERROR);
-							}
 						}
 
-						int index = oneRecord.indexOf(KadaiConstants.COLON);
-						String key = KadaiUtil.obtainDate(oneRecord, 0, index -2);
-						String value = KadaiUtil.obtainDate(oneRecord, index -1);
+						try {
+							int index = oneRecord.indexOf(KadaiConstants.COLON);
+							String key = KadaiUtil.obtainDate(oneRecord, 0, index -2);
+							String value = KadaiUtil.obtainDate(oneRecord, index -1);
 
-						workTimeMap.put(key, value);
-						count++;
-
+							workTimeMap.put(key, value);
+							count++;
+						} catch (IndexOutOfBoundsException iob) {
+							throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
+						}
 						continue;
 					}
 
-					validate(workTimeMap, count);
+					// 日付とデータ数のチェック
+					checkDateAndDataCount(workTimeMap, count);
 
 					// 勤務時間の算出
 					String answer = calcWorkTime(workTimeMap.get(KadaiConstants.START),
@@ -588,13 +588,13 @@ public class Kadai {
 	}
 
 	/**
-	 * validate
+	 * 日付とデータ数のチェック
 	 *
 	 * @param workTimeMap 勤怠データ
 	 * @param count カラム数
 	 * @throws KadaiException
 	 */
-	private static void validate(Map<String, String> workTimeMap, int count) throws KadaiException {
+	private static void checkDateAndDataCount(Map<String, String> workTimeMap, int count) throws KadaiException {
 
 		// 要素が3以外の場合エラー
 		if (KadaiConstants.ELEMENT_COUNT != count) {
