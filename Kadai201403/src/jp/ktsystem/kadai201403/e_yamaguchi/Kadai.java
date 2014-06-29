@@ -133,6 +133,9 @@ public class Kadai {
 				// 勤務時間の累計
 				int sumWorkTime = 0;
 
+				// カラム数
+				int count = 0;
+
 				// コロンの位置
 				int index = oneRecord.replace(KadaiConstants.SPACE,
 						KadaiConstants.BLANK_CHAR).indexOf(KadaiConstants.COLON);
@@ -203,6 +206,7 @@ public class Kadai {
 							// カンマごとに区切る
 							String[] workDayInfo = oneWorkDateMap.get(oneWorkDay).split(KadaiConstants.COMMA, -1);
 							workTimeMap.put(KadaiConstants.DATE, oneWorkDay);
+							count++;
 
 							for (String workDay : workDayInfo) {
 								index = workDay.indexOf(KadaiConstants.COLON);
@@ -210,13 +214,8 @@ public class Kadai {
 								// 勤務開始時間、終了時間を取得
 								String key = KadaiUtil.obtainDate(workDay, 1, index -2);
 								String value = KadaiUtil.obtainDate(workDay, index -1);
-
-								// 項目名が重複する場合エラー
-								if (workTimeMap.containsKey(key)) {
-									throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
-								}
-
 								workTimeMap.put(key, value);
+								count++;
 							}
 
 							// 日付のnull・空白チェック
@@ -224,7 +223,7 @@ public class Kadai {
 								throw new KadaiException(KadaiConstants.INPUT_NULL_OR_BLANK_ERROR);
 							}
 
-							validate(workTimeMap);
+							validate(workTimeMap, count);
 
 							// 勤務時間の算出
 							String answer = calcWorkTime(workTimeMap.get(KadaiConstants.START),
@@ -241,6 +240,7 @@ public class Kadai {
 
 							answerList.add(workTime);
 							workTimeMap.clear();
+							count = 0;
 							answerMap.put(month, answerList);
 						}
 					}
@@ -318,14 +318,17 @@ public class Kadai {
 			// 勤務時間の累計
 			int sumWorkTime = 0;
 
+			// カラム数
+			int count = 0;
+
 			// 入力ファイルを１行ずつ読み込む
 			while (null != (oneRecord = bufferedReader.readLine())) {
 				try {
 					 if (!oneRecord.contains(KadaiConstants.END_BRACE)) {
 
 						 // 改行、空白の場合次の行へ
-						if (0 == oneRecord.trim().length()) {
-							continue;
+							if (0 == oneRecord.trim().length()) {
+								continue;
 						}
 
 						// BOM、制御文字チェック
@@ -335,26 +338,24 @@ public class Kadai {
 							continue;
 						} else {
 							oneRecord = oneRecord.replace(KadaiConstants.COMMA, KadaiConstants.BLANK_CHAR);
-						}
 
-						try {
-							int index = oneRecord.indexOf(KadaiConstants.COLON);
-							String key = KadaiUtil.obtainDate(oneRecord, 0, index -2);
-							String value = KadaiUtil.obtainDate(oneRecord, index -1);
-
-							// 項目名が重複する場合エラー
-							if (workTimeMap.containsKey(key)) {
-								throw new KadaiException(KadaiConstants.INPUT_FILE_FORMAT_ERROR);
+							 // 文字列が空文字の場合エラー
+							if (oneRecord.trim().isEmpty()) {
+								throw new KadaiException(KadaiConstants.INPUT_NULL_OR_BLANK_ERROR);
 							}
-
-							workTimeMap.put(key, value);
-						} catch (IndexOutOfBoundsException iob) {
-							throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 						}
+
+						int index = oneRecord.indexOf(KadaiConstants.COLON);
+						String key = KadaiUtil.obtainDate(oneRecord, 0, index -2);
+						String value = KadaiUtil.obtainDate(oneRecord, index -1);
+
+						workTimeMap.put(key, value);
+						count++;
+
 						continue;
 					}
 
-					validate(workTimeMap);
+					validate(workTimeMap, count);
 
 					// 勤務時間の算出
 					String answer = calcWorkTime(workTimeMap.get(KadaiConstants.START),
@@ -371,6 +372,7 @@ public class Kadai {
 
 					answerList.add(workTime);
 					workTimeMap.clear();
+					count = 0;
 				} catch (KadaiException ke) {
 					KadaiUtil.setErrorCode(ke.getErrorCode(), answerList);
 
@@ -589,12 +591,13 @@ public class Kadai {
 	 * validate
 	 *
 	 * @param workTimeMap 勤怠データ
+	 * @param count カラム数
 	 * @throws KadaiException
 	 */
-	private static void validate(Map<String, String> workTimeMap) throws KadaiException {
+	private static void validate(Map<String, String> workTimeMap, int count) throws KadaiException {
 
 		// 要素が3以外の場合エラー
-		if (KadaiConstants.ELEMENT_COUNT != workTimeMap.size()) {
+		if (KadaiConstants.ELEMENT_COUNT != count) {
 			throw new KadaiException(KadaiConstants.INPUT_FILE_FORMAT_ERROR);
 		}
 
