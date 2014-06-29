@@ -49,6 +49,7 @@ public class Kadai {
 		checkTime(aStartTime, aEndTime);
 
 		Date start = KadaiUtil.changeTime(aStartTime);
+		Date end = KadaiUtil.changeTime(aEndTime);
 
 		// 出社時刻が9時より前の場合
 		if (start.before(KadaiConstants.START_TIME)) {
@@ -57,9 +58,7 @@ public class Kadai {
 		}
 
 		// 出社・退社時刻チェック
-		checkStartEndTime(start, aEndTime);
-
-		Date end = KadaiUtil.changeTime(aEndTime);
+		checkStartEndTime(start, end);
 
 		// 休憩時間(12時～13時)取得時の算出
 		long firstRestTime = calcRestTime(start, end,
@@ -476,6 +475,14 @@ public class Kadai {
 		if (!startMatch.matches() || !endMatch.matches()) {
 			throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 		}
+
+		// 時刻の分部分が60分以上の場合エラー
+		if (KadaiConstants.MINUTE <= Integer.parseInt(aStartTime.substring(
+				KadaiConstants.TIME_COUNT, KadaiConstants.MINUTE_COUNT))
+				|| KadaiConstants.MINUTE <= Integer.parseInt(aEndTime
+						.substring(KadaiConstants.TIME_COUNT, KadaiConstants.MINUTE_COUNT))) {
+			throw new KadaiException(KadaiConstants.INPUT_TIME_CONTROL_ERROR);
+		}
 	}
 
 	/**
@@ -487,22 +494,20 @@ public class Kadai {
 	 *            　退社時刻
 	 * @throws KadaiException
 	 */
-	private static void checkStartEndTime(Date aStartTime, String aEndTime) throws KadaiException {
+	private static void checkStartEndTime(Date aStartTime, Date aEndTime) throws KadaiException {
 
 		// 出社時刻が24時以降の場合エラー
 		if (aStartTime.after(KadaiConstants.START_TIME_LIMIT)) {
 			throw new KadaiException(KadaiConstants.INPUT_TIME_CONTROL_ERROR);
 		}
 
-		Date end = KadaiUtil.changeTime(aEndTime);
-
 		// 退社時刻が次の日の9時以降の場合エラー
-		if (end.after(KadaiConstants.END_TIME_LIMIT)) {
+		if (aEndTime.after(KadaiConstants.END_TIME_LIMIT)) {
 			throw new KadaiException(KadaiConstants.INPUT_TIME_CONTROL_ERROR);
 		}
 
 		// 出社時刻が退社時刻以前の時刻の場合エラー
-		if (aStartTime.after(end) || aStartTime.equals(end)) {
+		if (aStartTime.after(aEndTime) || aStartTime.equals(aEndTime)) {
 			throw new KadaiException(KadaiConstants.END_TIME_BEFORE_START_ERROR);
 		}
 	}
