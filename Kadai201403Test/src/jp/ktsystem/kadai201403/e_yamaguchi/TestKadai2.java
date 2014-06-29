@@ -95,11 +95,12 @@ public class TestKadai2 extends TestCase {
 		execute(SAMPLE_RESULT_PATH + "Case14.txt", SAMPLE_OUTPUT_PATH + "Case14\\");
 	}
 
-	public void testCase15() {
-		executeInvalid(SAMPLE_RESULT_PATH + "Case15.txt", null, "9");
+	public void testCase17() {
+		executeInvalid(null, "Case17.txt", "6");
 	}
 
-	public void testCase16() {
-		executeInvalid(SAMPLE_RESULT_PATH + "Case16.txt", "", "9");
+	public void testCase18() {
+		executeInvalid("", "Case18.txt", "6");
 	}
+
 }

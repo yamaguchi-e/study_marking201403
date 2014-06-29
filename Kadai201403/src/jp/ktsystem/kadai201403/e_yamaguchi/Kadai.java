@@ -111,9 +111,9 @@ public class Kadai {
 	 */
 	public static void parseWorkTimeDataLv2(String anInputPath, String anOutputPath) throws KadaiException {
 
-		// 出力ファイルnull・空文字チェック
-		if (KadaiUtil.checkFile(anOutputPath)) {
-			throw new KadaiException(KadaiConstants.OUTPUT_FILE_NULL_ERROR);
+		// 入力ファイルnull・空文字チェック
+		if (KadaiUtil.checkFile(anInputPath)) {
+			throw new KadaiException(KadaiConstants.INPUT_FILE_NULL_ERROR);
 		}
 
 		// 行ごとに勤務時間を入れるリスト
