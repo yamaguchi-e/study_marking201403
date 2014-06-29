@@ -153,5 +153,5 @@ public class KadaiConstants {
 	public static final int MINUTE_CHANGE = 1000;
 
 	/**  OUTPUT_FORMAT  出力フォーマット  */
-	public static final String OUTPUT_FORMAT = "{\"date\":\"%s\",\"workTime\":%s,\"total\":%s}";
+	public static final String OUTPUT_FORMAT = "{\"date\":%s,\"workTime\":%s,\"total\":%s}";
 }
