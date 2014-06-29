@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -434,8 +433,7 @@ public class Kadai {
 				bufferedWriter.write(String.format(KadaiConstants.OUTPUT_FORMAT,
 						workTime.getWorkDate(), workTime.getWorkTime(), workTime.getSumWorkTime()));
 
-				Iterator<WorkTime> iterator = answerList.iterator();
-				if (!iterator.hasNext()) {
+				if (!workTime.equals(answerList.get(answerList.size()-1))) {
 					bufferedWriter.write(KadaiConstants.COMMA);
 				}
 
@@ -477,14 +475,6 @@ public class Kadai {
 		// 数字以外の文字が含まれている場合エラー
 		if (!startMatch.matches() || !endMatch.matches()) {
 			throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
-		}
-
-		// 時刻の分部分が60分以上の場合エラー
-		if (KadaiConstants.MINUTE <= Integer.parseInt(aStartTime.substring(
-				KadaiConstants.TIME_COUNT, KadaiConstants.MINUTE_COUNT))
-				|| KadaiConstants.MINUTE <= Integer.parseInt(aEndTime
-						.substring(KadaiConstants.TIME_COUNT, KadaiConstants.MINUTE_COUNT))) {
-			throw new KadaiException(KadaiConstants.INPUT_TIME_CONTROL_ERROR);
 		}
 	}
 
