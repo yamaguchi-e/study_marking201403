@@ -111,11 +111,6 @@ public class Kadai {
 	 */
 	public static void parseWorkTimeDataLv2(String anInputPath, String anOutputPath) throws KadaiException {
 
-		// 入力ファイルnull・空文字チェック
-		if (KadaiUtil.checkFile(anInputPath)) {
-			throw new KadaiException(KadaiConstants.INPUT_FILE_NULL_ERROR);
-		}
-
 		// 行ごとに勤務時間を入れるリスト
 		Map<String, List<WorkTime>> answerMap = new HashMap<String, List<WorkTime>>();
 
@@ -421,6 +416,7 @@ public class Kadai {
 			for (WorkTime workTime : answerList) {
 
 				// 日付が重複する場合はエラー
+				// answerListは日付順にソート済み
 				if(checkLv2Flag && date.equals(workTime.getWorkDate())) {
 					workTime.setErrorCode(KadaiConstants.OUTPUT_OVERLAP_DATE_ERROR);
 				}
