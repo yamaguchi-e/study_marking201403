@@ -50,13 +50,13 @@ public class KadaiConstants {
 	/** OUTPUT_OVERLAP_DATE_ERROR  日付の値が重複する場合のエラー */
 	public static final String OUTPUT_OVERLAP_DATE_ERROR = "12";
 
-	/**  PATTERN   数字  */
-	public static final Pattern PATTERN = Pattern.compile("^\\d{4}$");
+	/**  HOUR_PATTERN   時間パターン(HHmm)  */
+	public static final Pattern HOUR_PATTERN = Pattern.compile("^\\d{4}$");
 
-	/**  DATE_PATTERN   日付(yyyyMMdd)  */
+	/**  DATE_PATTERN   日付パターン(yyyyMMdd)  */
 	public static final Pattern DATE_PATTERN = Pattern.compile("^\\d{8}$");
 
-	/**  MONTH_PATTERN   日付(yyyyMM)  */
+	/**  MONTH_PATTERN   日付パターン(yyyyMM)  */
 	public static final Pattern MONTH_PATTERN = Pattern.compile("^\\d{6}$");
 
 	/**  CHARACTER_CODE  文字コード  */
@@ -92,17 +92,14 @@ public class KadaiConstants {
 	/**  SECOND_REST_TIME_END  休憩終了時間  */
 	public static final Date SECOND_REST_TIME_END = KadaiUtil.changeTime("1830");
 
-	/**  MINUTE 時間(分)の限度  */
-	public static final int MINUTE = 60;
-
-	/**  COMMA カンマ区切り  */
-	public static final String COMMA = ",";
-
 	/**  DELIMITER 区切り  */
-	public static final String DELIMITER = "},";
+	public static final String DELIMITER = ",";
 
-	/**  COLON コロン  */
-	public static final String COLON = ":";
+	/**  DATE_DELIMITER 日付ごとに区切り  */
+	public static final String DATE_DELIMITER = "},";
+
+	/**  ITEM_AND_VALUE_DELIMITER 項目名と値の区切り  */
+	public static final String ITEM_AND_VALUE_DELIMITER = ":";
 
 	/**  BOM_PATTERN    BOM  */
 	public static final char BOM_PATTERN = 0xFEFF;
@@ -113,20 +110,20 @@ public class KadaiConstants {
 	/** SPACE 空白 */
 	public static final String SPACE = " ";
 
-	/** QUOTATION クォーテーション */
-	public static final String QUOTATION = "\"";
+	/** DATE_COLUMN 日付囲み */
+	public static final String DATE_COLUMN = "\"";
 
-	/** START_BRACE 括弧始まり */
-	public static final String START_BRACE = "{";
+	/** DATE_START 日付始まり */
+	public static final String DATE_START = "{";
 
-	/** END_BRACE 括弧終わり */
-	public static final String END_BRACE = "}";
+	/** DATE_END 日付終わり */
+	public static final String DATE_END = "}";
 
-	/** DATE_START_BRACE 括弧始まり */
-	public static final String DATE_START_BRACE = "[";
+	/** ATTENDANCE_START 勤怠データ始まり */
+	public static final String ATTENDANCE_START = "[";
 
-	/** DATE_END_BRACE 括弧終わり */
-	public static final String DATE_END_BRACE = "]";
+	/** ATTENDANCE_END 勤怠データ終わり */
+	public static final String ATTENDANCE_END = "]";
 
 	/** DATE 日付 */
 	public static final String DATE = "date";
@@ -148,9 +145,6 @@ public class KadaiConstants {
 
 	/**  WORK_END_TIME  退社時刻  */
 	public static final int WORK_END_TIME = 2;
-
-	/**  MINUTE_CHANGE  分単位に変換  */
-	public static final int MINUTE_CHANGE = 1000;
 
 	/**  OUTPUT_FORMAT  出力フォーマット  */
 	public static final String OUTPUT_FORMAT = "{\"date\":%s,\"workTime\":%s,\"total\":%s}";
