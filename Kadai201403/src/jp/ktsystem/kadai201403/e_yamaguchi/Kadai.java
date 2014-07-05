@@ -138,14 +138,15 @@ public class Kadai {
 				if (oneRecord.startsWith(KadaiConstants.DATE_START)
 						|| oneRecord.startsWith(KadaiConstants.DATE_END)) {
 					continue;
-				} else {
-					if (!KadaiConstants.COLUMN_START.equals(oneRecord.replace(KadaiConstants.SPACE,
-							KadaiConstants.BLANK_CHAR).substring(index + KadaiConstants.COLUMN_POSITION_START,
-									index + KadaiConstants.COLUMN_POSITION_END))
-									|| !oneRecord.replace(KadaiConstants.SPACE,
-									KadaiConstants.BLANK_CHAR).endsWith(KadaiConstants.COLUMN_END)) {
-						throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
-					}
+				}
+
+				// 日付囲みで囲まれてない場合エラー
+				if (!KadaiConstants.COLUMN_START.equals(oneRecord.replace(KadaiConstants.SPACE,
+						KadaiConstants.BLANK_CHAR).substring(index + KadaiConstants.COLUMN_POSITION_START,
+								index + KadaiConstants.COLUMN_POSITION_END))
+								|| !oneRecord.replace(KadaiConstants.SPACE,
+								KadaiConstants.BLANK_CHAR).endsWith(KadaiConstants.COLUMN_END)) {
+					throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 				}
 
 				List<WorkTime> answerList = new ArrayList<WorkTime>();
