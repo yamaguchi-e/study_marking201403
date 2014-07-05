@@ -171,10 +171,12 @@ public class Kadai {
 						index = oneRecord.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
 
 						// 年月を取得
-						month = KadaiUtil.obtainDate(oneRecord, 0, index- 2);
+						month = KadaiUtil.obtainDate(oneRecord, KadaiConstants.YEAR_MONTH_START_POSITION,
+								index - KadaiConstants.YEAR_MONTH_END_POSITION);
 
 						// 1か月分のデータを取得
-						monthData = oneRecord.substring(index +4, oneRecord.length() -3);
+						monthData = oneRecord.substring(index + KadaiConstants.MONTH_DATA_START_POSITION,
+								oneRecord.length() - KadaiConstants.MONTH_DATA_END_POSITION);
 
 						String[] workTimeInfo = monthData.split(KadaiConstants.DATE_DELIMITER, -1);
 
