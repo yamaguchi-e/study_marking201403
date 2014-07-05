@@ -348,8 +348,9 @@ public class Kadai {
 
 						try {
 							int index = oneRecord.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
-							String key = KadaiUtil.obtainDate(oneRecord, 0, index -2);
-							String value = KadaiUtil.obtainDate(oneRecord, index -1);
+							String key = KadaiUtil.obtainDate(oneRecord, KadaiConstants.LV2_ITEM_NAME_START_POSITION,
+									index - KadaiConstants.ITEM_NAME_END_POSITION);
+							String value = KadaiUtil.obtainDate(oneRecord, index - KadaiConstants.VALUE_START_POSITION);
 
 							workTimeMap.put(key, value);
 							count++;

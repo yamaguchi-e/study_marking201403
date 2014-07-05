@@ -193,4 +193,7 @@ public class KadaiConstants {
 
 	 /**  VALUE_START_POSITION  値開始位置  */
 	 public static final int VALUE_START_POSITION = 1;
+
+	 /**  ITEM_NAME_START_POSITION  項目名開始位置(lv2)  */
+	 public static final int LV2_ITEM_NAME_START_POSITION = 0;
 }
