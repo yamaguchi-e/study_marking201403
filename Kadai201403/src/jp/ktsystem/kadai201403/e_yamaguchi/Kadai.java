@@ -158,7 +158,7 @@ public class Kadai {
 				try {
 					if (!oneRecord.startsWith(KadaiConstants.DATE_END)) {
 						// 改行または空白の場合は次の行へ
-						if (0 == oneRecord.trim().length()) {
+						if (oneRecord.trim().isEmpty()) {
 							continue;
 						}
 
