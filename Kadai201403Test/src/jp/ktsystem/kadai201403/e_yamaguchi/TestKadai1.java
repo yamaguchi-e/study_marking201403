@@ -23,14 +23,7 @@ public class TestKadai1 extends TestCase {
 	private void execute(String anInputPath, String anOutputPath, List<WorkTime> answer) {
 
 		try {
-			List<WorkTime> answerList = Kadai.readWorkTimeFile(anInputPath);
-			Kadai.writeWorkTimeFile(SAMPLE_OUTPUT_PATH + anOutputPath, answerList);
-			for (int i = 0 ; i <= answerList.size() -1 ; i++) {
-				assertEquals(answer.get(i).getWorkDate(), answerList.get(i).getWorkDate());
-				assertEquals(answer.get(i).getWorkTime(), answerList.get(i).getWorkTime());
-				assertEquals(answer.get(i).getSumWorkTime(), answerList.get(i).getSumWorkTime());
-				assertEquals(answer.get(i).getErrorCode(), answerList.get(i).getErrorCode());
-			}
+			Kadai.parseWorkTimeData(anInputPath, SAMPLE_OUTPUT_PATH + anOutputPath);
 		} catch(KadaiException e) {
 			fail("例外が発生しました（エラーコード：" + e.getErrorCode() + "）");
 		} catch(Exception e) {

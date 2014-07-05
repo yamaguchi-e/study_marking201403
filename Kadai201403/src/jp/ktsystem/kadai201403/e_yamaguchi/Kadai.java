@@ -38,7 +38,7 @@ public class Kadai {
 	 * @return 勤務時間
 	 * @throws KadaiException
 	 */
-	public static String calcWorkTime(String aStartTime, String aEndTime) throws KadaiException {
+	private static String calcWorkTime(String aStartTime, String aEndTime) throws KadaiException {
 
 		// 時刻null, 空文字チェック
 		if (KadaiUtil.validate(aStartTime) || KadaiUtil.validate(aEndTime)) {
@@ -308,7 +308,7 @@ public class Kadai {
 	 * @return 勤務時間のリスト
 	 * @throws KadaiException
 	 */
-	public static List<WorkTime> readWorkTimeFile(String anInputPath) throws KadaiException {
+	private static List<WorkTime> readWorkTimeFile(String anInputPath) throws KadaiException {
 
 		// 行ごとに勤務時間を入れるリスト
 		List<WorkTime> answerList = new ArrayList<WorkTime>();
@@ -408,7 +408,7 @@ public class Kadai {
 	 * @param answerList 勤務時間のリスト
 	 * @throws KadaiException
 	 */
-	public static void writeWorkTimeFile(String anOutputPath, List<WorkTime> answerList) throws KadaiException {
+	private static void writeWorkTimeFile(String anOutputPath, List<WorkTime> answerList) throws KadaiException {
 		BufferedWriter bufferedWriter = null;
 
 		try {
