@@ -115,7 +115,6 @@ public class Kadai {
 		Map<String, List<WorkTime>> answerMap = new HashMap<String, List<WorkTime>>();
 
 		BufferedReader bufferedReader = null;
-		String month = null;
 
 		try {
 			bufferedReader = new BufferedReader(new InputStreamReader(
@@ -123,18 +122,9 @@ public class Kadai {
 			Map<String, String> workTimeMap = new HashMap<String, String>();
 
 			String oneRecord = null;
-			String monthData = null;
 
 			// 入力ファイルを１行ずつ読み込む
 			while (null != (oneRecord = bufferedReader.readLine())) {
-
-				List<WorkTime> answerList = new ArrayList<WorkTime>();
-
-				// 勤務時間の累計
-				int sumWorkTime = 0;
-
-				// カラム数
-				int count = 0;
 
 				// コロンの位置
 				int index = oneRecord.replace(KadaiConstants.SPACE,
@@ -158,6 +148,12 @@ public class Kadai {
 					}
 				}
 
+				List<WorkTime> answerList = new ArrayList<WorkTime>();
+				String month = null;
+
+				// 勤務時間の累計
+				int sumWorkTime = 0;
+
 				try {
 					if (!oneRecord.startsWith(KadaiConstants.DATE_END)) {
 						// 改行または空白の場合は次の行へ
@@ -175,7 +171,7 @@ public class Kadai {
 								index - KadaiConstants.YEAR_MONTH_END_POSITION);
 
 						// 1か月分のデータを取得
-						monthData = oneRecord.substring(index + KadaiConstants.MONTH_DATA_START_POSITION,
+						String monthData = oneRecord.substring(index + KadaiConstants.MONTH_DATA_START_POSITION,
 								oneRecord.length() - KadaiConstants.MONTH_DATA_END_POSITION);
 
 						String[] workTimeInfo = monthData.split(KadaiConstants.DATE_DELIMITER, -1);
@@ -205,6 +201,9 @@ public class Kadai {
 
 						// 日付の順にソート
 						Collections.sort(oneWorkDateList, new DateComparator());
+
+						// カラム数
+						int count = 0;
 
 						for(String oneWorkDay : oneWorkDateList) {
 
