@@ -217,8 +217,9 @@ public class Kadai {
 								index = workDay.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
 
 								// 勤務開始時間、終了時間を取得
-								String key = KadaiUtil.obtainDate(workDay, 1, index -2);
-								String value = KadaiUtil.obtainDate(workDay, index -1);
+								String key = KadaiUtil.obtainDate(workDay, KadaiConstants.ITEM_NAME_START_POSITION,
+										index - KadaiConstants.ITEM_NAME_END_POSITION);
+								String value = KadaiUtil.obtainDate(workDay, index - KadaiConstants.VALUE_START_POSITION);
 								workTimeMap.put(key, value);
 								count++;
 							}
