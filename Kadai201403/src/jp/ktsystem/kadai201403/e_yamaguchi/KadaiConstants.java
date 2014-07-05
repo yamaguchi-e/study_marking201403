@@ -172,4 +172,16 @@ public class KadaiConstants {
 
 	 /** MONTH_DATA_END_POSITION 1か月分データ終了位置 */
 	 public static final int MONTH_DATA_END_POSITION = 3;
+
+	 /** DATE_START_POSITION 日付開始位置 */
+	 public static final int DATE_START_POSITION = 1;
+
+	 /** DATE_END_POSITION 日付終了位置 */
+	 public static final int DATE_END_POSITION = 3;
+
+	 /** ONE_DATE_DATA_START_POSITION 1日分データ開始位置 */
+	 public static final int ONE_DATE_DATA_START_POSITION = 2;
+
+	 /** ONE_DATE_DATA_END_POSITION 1日分データ終了位置 */
+	 public static final int ONE_DATE_DATA_END_POSITION = 1;
 }
