@@ -50,13 +50,13 @@ public class KadaiConstants {
 	/** OUTPUT_OVERLAP_DATE_ERROR  日付の値が重複する場合のエラー */
 	public static final String OUTPUT_OVERLAP_DATE_ERROR = "12";
 
-	/**  HOUR_PATTERN   時間パターン(HHmm)  */
+	/**  HOUR_PATTERN   時間パターン  */
 	public static final Pattern HOUR_PATTERN = Pattern.compile("^\\d{4}$");
 
-	/**  DATE_PATTERN   日付パターン(yyyyMMdd)  */
+	/**  DATE_PATTERN   日付パターン  */
 	public static final Pattern DATE_PATTERN = Pattern.compile("^\\d{8}$");
 
-	/**  MONTH_PATTERN   日付パターン(yyyyMM)  */
+	/**  MONTH_PATTERN   日付パターン  */
 	public static final Pattern MONTH_PATTERN = Pattern.compile("^\\d{6}$");
 
 	/**  CHARACTER_CODE  文字コード  */
