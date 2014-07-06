@@ -275,7 +275,7 @@ public class Kadai {
 				MONTH_FORMAT.setLenient(false);
 				MONTH_FORMAT.parse(key);
 
-			// 日付がyyyyMMddの形式で入力されていない場合エラー
+			// 日付がyyyyMMの形式で入力されていない場合エラー
 			} catch (ParseException pe) {
 				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 
