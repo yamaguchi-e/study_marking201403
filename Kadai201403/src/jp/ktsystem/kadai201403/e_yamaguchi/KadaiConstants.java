@@ -51,7 +51,7 @@ public class KadaiConstants {
 	public static final String OUTPUT_OVERLAP_DATE_ERROR = "12";
 
 	/**  HOUR_PATTERN   時間パターン  */
-	public static final Pattern HOUR_PATTERN = Pattern.compile("^\\d{4}$");
+	public static final Pattern HOUR_PATTERN = Pattern.compile("^\\d{2}[0-5][0-9]$");
 
 	/**  DATE_PATTERN   日付パターン  */
 	public static final Pattern DATE_PATTERN = Pattern.compile("^\\d{8}$");

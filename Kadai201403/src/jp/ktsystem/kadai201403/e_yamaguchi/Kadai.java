@@ -467,14 +467,6 @@ public class Kadai {
 		if (!startMatch.matches() || !endMatch.matches()) {
 			throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 		}
-
-		// 時刻の分部分が60分以上の場合エラー
-		if (60 <= Integer.parseInt(aStartTime.substring(
-				KadaiConstants.TIME_COUNT, KadaiConstants.MINUTE_COUNT))
-				|| 60 <= Integer.parseInt(aEndTime.substring(
-						KadaiConstants.TIME_COUNT, KadaiConstants.MINUTE_COUNT))) {
-			throw new KadaiException(KadaiConstants.INPUT_TIME_CONTROL_ERROR);
-		}
 	}
 
 	/**
