@@ -144,7 +144,8 @@ public class Kadai {
 			checkOverlapDate(answerMap, entry.getKey());
 
 			// ファイル書き込み
-			writeWorkTimeFile(anOutputPath + entry.getKey(), entry.getValue());
+			writeWorkTimeFile(anOutputPath + KadaiConstants.DIRECTORY_PLACE
+					+ entry.getKey(), entry.getValue());
 		}
 	}
 
@@ -424,7 +425,8 @@ public class Kadai {
 
 		try {
 			bufferedWriter = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(anOutputPath, true), KadaiConstants.CHARACTER_CODE));
+					new FileOutputStream(anOutputPath, true),
+					KadaiConstants.CHARACTER_CODE));
 
 			bufferedWriter.write(KadaiConstants.ATTENDANCE_START);
 			bufferedWriter.newLine();

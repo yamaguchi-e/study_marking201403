@@ -40,23 +40,23 @@ public class TestKadai2 extends TestCase {
 	}
 
 	public void testCase1() {
-		execute(SAMPLE_RESULT_PATH + "Case1.txt", SAMPLE_OUTPUT_PATH + "Case1\\");
+		execute(SAMPLE_RESULT_PATH + "Case1.txt", SAMPLE_OUTPUT_PATH + "Case1");
 	}
 
 	public void testCase2() {
-		execute(SAMPLE_RESULT_PATH + "Case2.txt", SAMPLE_OUTPUT_PATH + "Case2\\");
+		execute(SAMPLE_RESULT_PATH + "Case2.txt", SAMPLE_OUTPUT_PATH + "Case2");
 	}
 
 	public void testCase3() {
-		executeInvalid(SAMPLE_RESULT_PATH + "Case3.txt", SAMPLE_OUTPUT_PATH + "Case3\\", "2");
+		executeInvalid(SAMPLE_RESULT_PATH + "Case3.txt", SAMPLE_OUTPUT_PATH + "Case3", "2");
 	}
 
 	public void testCase4() {
-		execute(SAMPLE_RESULT_PATH + "Case4.txt", SAMPLE_OUTPUT_PATH + "Case4\\");
+		execute(SAMPLE_RESULT_PATH + "Case4.txt", SAMPLE_OUTPUT_PATH + "Case4");
 	}
 
 	public void testCase5() {
-		execute(SAMPLE_RESULT_PATH + "Case5.txt", SAMPLE_OUTPUT_PATH + "Case5\\");
+		execute(SAMPLE_RESULT_PATH + "Case5.txt", SAMPLE_OUTPUT_PATH + "Case5");
 	}
 
 	public void testCase6() {
@@ -92,7 +92,7 @@ public class TestKadai2 extends TestCase {
 	}
 
 	public void testCase14() {
-		execute(SAMPLE_RESULT_PATH + "Case14.txt", SAMPLE_OUTPUT_PATH + "Case14\\");
+		execute(SAMPLE_RESULT_PATH + "Case14.txt", SAMPLE_OUTPUT_PATH + "Case14");
 	}
 
 	public void testCase15() {
