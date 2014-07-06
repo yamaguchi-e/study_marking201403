@@ -110,6 +110,11 @@ public class Kadai {
 	 */
 	public static void parseWorkTimeDataLv2(String anInputPath, String anOutputPath) throws KadaiException {
 
+		// 出力ファイルnull・空文字チェック
+		if (KadaiUtil.checkFile(anOutputPath)) {
+			throw new KadaiException(KadaiConstants.OUTPUT_FILE_NULL_ERROR);
+		}
+
 		// 行ごとに勤務時間を入れるリスト
 		Map<String, List<WorkTime>> answerMap = new HashMap<String, List<WorkTime>>();
 
