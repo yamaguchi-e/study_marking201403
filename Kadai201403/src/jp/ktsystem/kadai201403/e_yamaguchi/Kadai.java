@@ -199,15 +199,11 @@ public class Kadai {
 							oneWorkDateMap.put(date, data);
 						}
 
-						// カラム数
-						int count = 0;
-
 						for(Entry<String, String> entry : oneWorkDateMap.entrySet()) {
 
 							// カンマごとに区切る
 							String[] workDayInfo = entry.getValue().split(KadaiConstants.DELIMITER, -1);
 							workTimeMap.put(KadaiConstants.DATE, entry.getKey());
-							count++;
 
 							for (String workDay : workDayInfo) {
 								index = workDay.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
@@ -217,7 +213,6 @@ public class Kadai {
 										index - KadaiConstants.ITEM_NAME_END_POSITION);
 								String value = KadaiUtil.obtainDate(workDay, index - KadaiConstants.VALUE_START_POSITION);
 								workTimeMap.put(key, value);
-								count++;
 							}
 
 							// 日付のnull・空白チェック
@@ -225,7 +220,7 @@ public class Kadai {
 								throw new KadaiException(KadaiConstants.INPUT_NULL_OR_BLANK_ERROR);
 							}
 
-							validate(workTimeMap, count);
+							validate(workTimeMap);
 
 							// 勤務時間の算出
 							String answer = calcWorkTime(workTimeMap.get(KadaiConstants.START),
@@ -242,7 +237,6 @@ public class Kadai {
 
 							answerList.add(workTime);
 							workTimeMap.clear();
-							count = 0;
 							answerMap.put(month, answerList);
 						}
 					}
@@ -314,9 +308,6 @@ public class Kadai {
 			// 勤務時間の累計
 			int sumWorkTime = 0;
 
-			// カラム数
-			int count = 0;
-
 			// 入力ファイルを１行ずつ読み込む
 			while (null != (oneRecord = bufferedReader.readLine())) {
 				try {
@@ -347,12 +338,11 @@ public class Kadai {
 						String value = KadaiUtil.obtainDate(oneRecord, index - KadaiConstants.VALUE_START_POSITION);
 
 						workTimeMap.put(key, value);
-						count++;
 
 						continue;
 					}
 
-					validate(workTimeMap, count);
+					validate(workTimeMap);
 
 					// 勤務時間の算出
 					String answer = calcWorkTime(workTimeMap.get(KadaiConstants.START),
@@ -369,7 +359,6 @@ public class Kadai {
 
 					answerList.add(workTime);
 					workTimeMap.clear();
-					count = 0;
 				} catch (KadaiException ke) {
 					KadaiUtil.setErrorCode(ke.getErrorCode(), answerList);
 
@@ -566,13 +555,12 @@ public class Kadai {
 	 * validate
 	 *
 	 * @param workTimeMap 勤怠データ
-	 * @param count カラム数
 	 * @throws KadaiException
 	 */
-	private static void validate(Map<String, String> workTimeMap, int count) throws KadaiException {
+	private static void validate(Map<String, String> workTimeMap) throws KadaiException {
 
 		// 要素が3以外の場合エラー
-		if (KadaiConstants.ELEMENT_COUNT != count) {
+		if (KadaiConstants.ELEMENT_COUNT != workTimeMap.size()) {
 			throw new KadaiException(KadaiConstants.INPUT_FILE_FORMAT_ERROR);
 		}
 
