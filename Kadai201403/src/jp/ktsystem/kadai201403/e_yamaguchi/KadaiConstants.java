@@ -153,7 +153,7 @@ public class KadaiConstants {
 	public static final int WORK_END_TIME = 2;
 
 	/**  OUTPUT_FORMAT  出力フォーマット  */
-	public static final String OUTPUT_FORMAT = "{\"date\":%s,\"workTime\":%s,\"total\":%s}";
+	public static final String OUTPUT_FORMAT = "{\"date\":\"%s\",\"workTime\":%s,\"total\":%s}";
 
 	/** COLUMN_POSITION_START 開始文字囲み位置(始点) */
 	 public static final int COLUMN_POSITION_START = 1;
