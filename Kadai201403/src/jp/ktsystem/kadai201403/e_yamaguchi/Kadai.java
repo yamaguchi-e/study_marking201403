@@ -27,9 +27,6 @@ import java.util.regex.Matcher;
  */
 public class Kadai {
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
-	private static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyyMM");
-
 	/**
 	 * 勤務時間の算出
 	 *
@@ -273,11 +270,12 @@ public class Kadai {
 			}
 		}
 
+		SimpleDateFormat monthFormat = new SimpleDateFormat(KadaiConstants.MONTH_FORMAT);
 		for (String key : answerMap.keySet()) {
 			try {
 				// 日付として成立する値であるかを調べる
-				MONTH_FORMAT.setLenient(false);
-				MONTH_FORMAT.parse(key);
+				monthFormat.setLenient(false);
+				monthFormat.parse(key);
 
 			// 日付がyyyyMMの形式で入力されていない場合エラー
 			} catch (ParseException pe) {
@@ -593,10 +591,11 @@ public class Kadai {
 			}
 		}
 
+		SimpleDateFormat dateFormat = new SimpleDateFormat(KadaiConstants.DATE_FORMAT);
 		try {
 			// 日付として成立する値であるかを調べる
-			DATE_FORMAT.setLenient(false);
-			DATE_FORMAT.parse(workTimeMap.get(KadaiConstants.DATE));
+			dateFormat.setLenient(false);
+			dateFormat.parse(workTimeMap.get(KadaiConstants.DATE));
 
 		// 日付がyyyyMMddの形式で入力されていない場合エラー
 		} catch (ParseException pe) {
