@@ -220,7 +220,8 @@ public class Kadai {
 								throw new KadaiException(KadaiConstants.INPUT_NULL_OR_BLANK_ERROR);
 							}
 
-							validate(workTimeMap);
+							// 日付とデータ数のチェック
+							checkDateAndDataCount(workTimeMap);
 
 							// 勤務時間の算出
 							String answer = calcWorkTime(workTimeMap.get(KadaiConstants.START),
@@ -342,7 +343,8 @@ public class Kadai {
 						continue;
 					}
 
-					validate(workTimeMap);
+					// 日付とデータ数のチェック
+					checkDateAndDataCount(workTimeMap);
 
 					// 勤務時間の算出
 					String answer = calcWorkTime(workTimeMap.get(KadaiConstants.START),
@@ -552,12 +554,12 @@ public class Kadai {
 	}
 
 	/**
-	 * validate
+	 * 日付とデータ数のチェック
 	 *
 	 * @param workTimeMap 勤怠データ
 	 * @throws KadaiException
 	 */
-	private static void validate(Map<String, String> workTimeMap) throws KadaiException {
+	private static void checkDateAndDataCount(Map<String, String> workTimeMap) throws KadaiException {
 
 		// 要素が3以外の場合エラー
 		if (KadaiConstants.ELEMENT_COUNT != workTimeMap.size()) {
