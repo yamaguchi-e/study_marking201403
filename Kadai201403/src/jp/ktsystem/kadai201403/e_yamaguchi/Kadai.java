@@ -260,6 +260,12 @@ public class Kadai {
 								String key = KadaiUtil.obtainDate(workDay, KadaiConstants.ITEM_NAME_START_POSITION,
 										index - KadaiConstants.ITEM_NAME_END_POSITION);
 								String value = KadaiUtil.obtainDate(workDay, index - KadaiConstants.VALUE_START_POSITION);
+
+								// 要素名が重複する場合エラー
+								if (workTimeMap.containsKey(key)) {
+									throw new KadaiException(KadaiConstants.INPUT_FILE_FORMAT_ERROR);
+								}
+
 								workTimeMap.put(key, value);
 							}
 
@@ -321,7 +327,7 @@ public class Kadai {
 	 * @return 勤務時間のリスト
 	 * @throws KadaiException
 	 */
-	private static List<WorkTime> readWorkTimeFile(String anInputPath) throws KadaiException {
+	public static List<WorkTime> readWorkTimeFile(String anInputPath) throws KadaiException {
 
 		// 行ごとに勤務時間を入れるリスト
 		List<WorkTime> answerList = new ArrayList<WorkTime>();
@@ -365,6 +371,11 @@ public class Kadai {
 						String key = KadaiUtil.obtainDate(oneRecord, KadaiConstants.LV2_ITEM_NAME_START_POSITION,
 								index - KadaiConstants.ITEM_NAME_END_POSITION);
 						String value = KadaiUtil.obtainDate(oneRecord, index - KadaiConstants.VALUE_START_POSITION);
+
+						// 要素名が重複する場合エラー
+						if (workTimeMap.containsKey(key)) {
+							throw new KadaiException(KadaiConstants.INPUT_FILE_FORMAT_ERROR);
+						}
 
 						workTimeMap.put(key, value);
 
@@ -420,7 +431,7 @@ public class Kadai {
 	 * @param answerList 勤務時間のリスト
 	 * @throws KadaiException
 	 */
-	private static void writeWorkTimeFile(String anOutputPath, List<WorkTime> answerList) throws KadaiException {
+	public static void writeWorkTimeFile(String anOutputPath, List<WorkTime> answerList) throws KadaiException {
 		BufferedWriter bufferedWriter = null;
 
 		try {
@@ -604,7 +615,7 @@ public class Kadai {
 		keyList.add(KadaiConstants.END);
 
 		for (Entry<String, String> entry : workTimeMap.entrySet()) {
-			// 日付のnull・空白チェック
+			// null・空白チェック
 			if (KadaiUtil.validate(entry.getValue()) || entry.getValue().equals("null")) {
 				throw new KadaiException(KadaiConstants.INPUT_NULL_OR_BLANK_ERROR);
 			}
