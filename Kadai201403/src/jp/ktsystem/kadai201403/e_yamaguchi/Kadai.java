@@ -275,13 +275,6 @@ public class Kadai {
 				MONTH_FORMAT.setLenient(false);
 				MONTH_FORMAT.parse(key);
 
-				Matcher match = KadaiConstants.MONTH_PATTERN.matcher(key);
-
-				// 数字以外の文字が含まれている場合エラー
-				if (!match.matches()) {
-					throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
-				}
-
 			// 日付がyyyyMMddの形式で入力されていない場合エラー
 			} catch (ParseException pe) {
 				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
