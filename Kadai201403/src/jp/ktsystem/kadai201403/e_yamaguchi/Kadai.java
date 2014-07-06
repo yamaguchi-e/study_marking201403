@@ -101,7 +101,7 @@ public class Kadai {
 	/**
 	 * 課題2
 	 * <br>
-	 * 課題2は出力ファイルに出力する日付(answerListに渡す日付)が
+	 * 課題2は出力ファイルに出力する日付(answerMapに渡す日付)が
 	 * 日付順にソートされていることが前提である。
 	 *
 	 * @param anInputPath 入力ファイル
@@ -119,6 +119,42 @@ public class Kadai {
 		if (KadaiUtil.checkFile(anOutputPath)) {
 			throw new KadaiException(KadaiConstants.OUTPUT_FILE_NULL_ERROR);
 		}
+
+		// 入力ファイルの読み込み
+		Map<String, List<WorkTime>> answerMap = readWorkTimeFileLv2(anInputPath);
+
+		SimpleDateFormat monthFormat = new SimpleDateFormat(KadaiConstants.MONTH_FORMAT);
+		for (Entry<String, List<WorkTime>> entry : answerMap.entrySet()) {
+			try {
+				// 日付として成立する値であるかを調べる
+				monthFormat.setLenient(false);
+				monthFormat.parse(entry.getKey());
+
+			// 日付がyyyyMMの形式で入力されていない場合エラー
+			} catch (ParseException pe) {
+				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
+
+			// 日付として成立する値が設定されていない場合エラー
+			} catch (IllegalArgumentException iae) {
+				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
+			}
+
+			// 日付重複チェック
+			checkOverlapDate(answerMap, entry.getKey());
+
+			// ファイル書き込み
+			writeWorkTimeFile(anOutputPath + entry.getKey(), entry.getValue());
+		}
+	}
+
+	/**
+	 * ファイル読み込み(課題2)
+	 *
+	 * @param anInputPath 入力ファイル
+	 * @return 勤務時間のリスト
+	 * @throws KadaiException
+	 */
+	private static Map<String, List<WorkTime>> readWorkTimeFileLv2(String anInputPath) throws KadaiException {
 
 		// 行ごとに勤務時間を入れるリスト
 		Map<String, List<WorkTime>> answerMap = new HashMap<String, List<WorkTime>>();
@@ -273,33 +309,11 @@ public class Kadai {
 				}
 			}
 		}
-
-		SimpleDateFormat monthFormat = new SimpleDateFormat(KadaiConstants.MONTH_FORMAT);
-		for (Entry<String, List<WorkTime>> entry : answerMap.entrySet()) {
-			try {
-				// 日付として成立する値であるかを調べる
-				monthFormat.setLenient(false);
-				monthFormat.parse(entry.getKey());
-
-			// 日付がyyyyMMの形式で入力されていない場合エラー
-			} catch (ParseException pe) {
-				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
-
-			// 日付として成立する値が設定されていない場合エラー
-			} catch (IllegalArgumentException iae) {
-				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
-			}
-
-			// 日付重複チェック
-			checkOverlapDate(answerMap, entry.getKey());
-
-			// ファイル書き込み
-			writeWorkTimeFile(anOutputPath + entry.getKey(), entry.getValue());
-		}
+		return answerMap;
 	}
 
 	/**
-	 * ファイル読み込み
+	 * ファイル読み込み(課題1)
 	 *
 	 * @param anInputPath 入力ファイル
 	 * @return 勤務時間のリスト
