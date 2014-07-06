@@ -272,11 +272,11 @@ public class Kadai {
 		}
 
 		SimpleDateFormat monthFormat = new SimpleDateFormat(KadaiConstants.MONTH_FORMAT);
-		for (String key : answerMap.keySet()) {
+		for (Entry<String, List<WorkTime>> entry : answerMap.entrySet()) {
 			try {
 				// 日付として成立する値であるかを調べる
 				monthFormat.setLenient(false);
-				monthFormat.parse(key);
+				monthFormat.parse(entry.getKey());
 
 			// 日付がyyyyMMの形式で入力されていない場合エラー
 			} catch (ParseException pe) {
@@ -288,10 +288,10 @@ public class Kadai {
 			}
 
 			// 日付重複チェック
-			checkOverlapDate(answerMap, key);
+			checkOverlapDate(answerMap, entry.getKey());
 
 			// ファイル書き込み
-			writeWorkTimeFile(anOutputPath + key, answerMap.get(key));
+			writeWorkTimeFile(anOutputPath + entry.getKey(), entry.getValue());
 		}
 	}
 
@@ -581,14 +581,13 @@ public class Kadai {
 		keyList.add(KadaiConstants.START);
 		keyList.add(KadaiConstants.END);
 
-		for (String key : workTimeMap.keySet()) {
+		for (Entry<String, String> entry : workTimeMap.entrySet()) {
 			// 日付のnull・空白チェック
-			if (KadaiUtil.validate(workTimeMap.get(key))
-					|| workTimeMap.get(key).equals("null")) {
+			if (KadaiUtil.validate(entry.getValue()) || entry.getValue().equals("null")) {
 				throw new KadaiException(KadaiConstants.INPUT_NULL_OR_BLANK_ERROR);
 			}
 
-			if (!keyList.contains(key)) {
+			if (!keyList.contains(entry.getKey())) {
 				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 			}
 		}
