@@ -27,6 +27,9 @@ import java.util.regex.Matcher;
  */
 public class Kadai {
 
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
+	private static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyyMM");
+
 	/**
 	 * 勤務時間の算出
 	 *
@@ -249,7 +252,8 @@ public class Kadai {
 						}
 					}
 				} catch (KadaiException ke) {
-					KadaiUtil.setErrorCode(ke.getErrorCode(), answerList);
+					WorkTime workTime = KadaiUtil.setErrorCode(ke.getErrorCode());
+					answerList.add(workTime);
 					answerMap.put(month, answerList);
 
 					// エラーが発生した場合、処理打ち切り
@@ -270,12 +274,11 @@ public class Kadai {
 			}
 		}
 
-		SimpleDateFormat monthFormat = new SimpleDateFormat(KadaiConstants.MONTH_FORMAT);
 		for (String key : answerMap.keySet()) {
 			try {
 				// 日付として成立する値であるかを調べる
-				monthFormat.setLenient(false);
-				monthFormat.parse(key);
+				MONTH_FORMAT.setLenient(false);
+				MONTH_FORMAT.parse(key);
 
 			// 日付がyyyyMMの形式で入力されていない場合エラー
 			} catch (ParseException pe) {
@@ -370,7 +373,8 @@ public class Kadai {
 					answerList.add(workTime);
 					workTimeMap.clear();
 				} catch (KadaiException ke) {
-					KadaiUtil.setErrorCode(ke.getErrorCode(), answerList);
+					WorkTime workTime = KadaiUtil.setErrorCode(ke.getErrorCode());
+					answerList.add(workTime);
 
 					// エラーが発生した場合、処理打ち切り
 					break;
@@ -591,11 +595,10 @@ public class Kadai {
 			}
 		}
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat(KadaiConstants.DATE_FORMAT);
 		try {
 			// 日付として成立する値であるかを調べる
-			dateFormat.setLenient(false);
-			dateFormat.parse(workTimeMap.get(KadaiConstants.DATE));
+			DATE_FORMAT.setLenient(false);
+			DATE_FORMAT.parse(workTimeMap.get(KadaiConstants.DATE));
 
 		// 日付がyyyyMMddの形式で入力されていない場合エラー
 		} catch (ParseException pe) {

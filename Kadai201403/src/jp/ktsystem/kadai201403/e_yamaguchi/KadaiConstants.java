@@ -196,13 +196,4 @@ public class KadaiConstants {
 
 	 /**  ITEM_NAME_START_POSITION  項目名開始位置(lv2)  */
 	 public static final int LV2_ITEM_NAME_START_POSITION = 0;
-
-	 /**  DATE_FORMAT   日付(年月日)フォーマット  */
-	 public static final String DATE_FORMAT = "yyyyMMdd";
-
-	 /**  MONTH_FORMAT  日付(年月)フォーマット  */
-	 public static final String MONTH_FORMAT = "yyyyMM";
-
-	 /**  TIME_FORMAT  時間フォーマット  */
-	 public static final String TIME_FORMAT = "HHmm";
 }
