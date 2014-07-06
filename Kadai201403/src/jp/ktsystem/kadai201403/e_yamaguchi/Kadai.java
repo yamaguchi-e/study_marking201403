@@ -100,6 +100,9 @@ public class Kadai {
 
 	/**
 	 * 課題2
+	 * <br>
+	 * 課題2は出力ファイルに出力する日付(answerListに渡す日付)が
+	 * 日付順にソートされていることが前提である。
 	 *
 	 * @param anInputPath 入力ファイル
 	 * @param anOutputPath 出力ファイル
