@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -428,7 +429,10 @@ public class Kadai {
 			bufferedWriter.write(KadaiConstants.ATTENDANCE_START);
 			bufferedWriter.newLine();
 
-			for (WorkTime workTime : answerList) {
+			Iterator<WorkTime> iterator = answerList.iterator();
+
+			while (iterator.hasNext()) {
+				WorkTime workTime = iterator.next();
 
 				if (!workTime.getErrorCode().isEmpty()) {
 					// エラーコード書き込み
@@ -441,10 +445,9 @@ public class Kadai {
 				bufferedWriter.write(String.format(KadaiConstants.OUTPUT_FORMAT,
 						workTime.getWorkDate(), workTime.getWorkTime(), workTime.getSumWorkTime()));
 
-				if (!workTime.equals(answerList.get(answerList.size()-1))) {
+				if (iterator.hasNext()) {
 					bufferedWriter.write(KadaiConstants.DELIMITER);
-				}
-
+			    }
 				bufferedWriter.newLine();
 
 			}
