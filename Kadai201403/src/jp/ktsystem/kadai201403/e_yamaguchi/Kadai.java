@@ -29,7 +29,6 @@ public class Kadai {
 
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
 	private static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyyMM");
-	private static boolean checkLv2Flag = false;
 
 	/**
 	 * 勤務時間の算出
@@ -292,7 +291,8 @@ public class Kadai {
 				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 			}
 
-			checkLv2Flag = true;
+			// 日付重複チェック
+			checkOverlapDate(answerMap, key);
 
 			// ファイル書き込み
 			writeWorkTimeFile(anOutputPath + key, answerMap.get(key));
@@ -416,16 +416,7 @@ public class Kadai {
 			bufferedWriter.write(KadaiConstants.ATTENDANCE_START);
 			bufferedWriter.newLine();
 
-			String date = KadaiConstants.BLANK_CHAR;
-
 			for (WorkTime workTime : answerList) {
-
-				// 日付が重複する場合はエラー
-				if(checkLv2Flag && date.equals(workTime.getWorkDate())) {
-					workTime.setErrorCode(KadaiConstants.OUTPUT_OVERLAP_DATE_ERROR);
-				}
-
-				date = workTime.getWorkDate();
 
 				if (!workTime.getErrorCode().isEmpty()) {
 					// エラーコード書き込み
@@ -639,4 +630,23 @@ public class Kadai {
 			throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 		}
 	}
+
+	/**
+	 * 日付重複チェック
+	 *
+	 * @param answerMap 勤怠データ
+	 * @param key 月
+	 * @throws KadaiException
+	 */
+	 private static void checkOverlapDate(Map<String, List<WorkTime>> answerMap, String key) {
+	 	String date = KadaiConstants.BLANK_CHAR;
+	 	for (WorkTime workTime : answerMap.get(key)) {
+
+		 	// 日付が重複する場合はエラー
+		 	if(date.equals(workTime.getWorkDate())) {
+		 		workTime.setErrorCode(KadaiConstants.OUTPUT_OVERLAP_DATE_ERROR);
+			}
+		 	date = workTime.getWorkDate();
+	 	}
+	 }
 }
