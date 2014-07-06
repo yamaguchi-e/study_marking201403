@@ -323,8 +323,8 @@ public class Kadai {
 				try {
 					 if (!oneRecord.contains(KadaiConstants.DATE_END)) {
 
-						 // 改行、空白の場合次の行へ
-						if (0 == oneRecord.trim().length()) {
+						// 改行、空白の場合次の行へ
+						if (oneRecord.trim().isEmpty()) {
 							continue;
 						}
 
