@@ -11,11 +11,12 @@ import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 
 /**
@@ -126,10 +127,6 @@ public class Kadai {
 			// 入力ファイルを１行ずつ読み込む
 			while (null != (oneRecord = bufferedReader.readLine())) {
 
-				// コロンの位置
-				int index = oneRecord.replace(KadaiConstants.SPACE,
-						KadaiConstants.BLANK_CHAR).indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
-
 				if (oneRecord.endsWith(KadaiConstants.DELIMITER)) {
 					// 行の末尾がカンマの場合削除
 					oneRecord = oneRecord.substring(0, oneRecord.length()-1);
@@ -138,15 +135,6 @@ public class Kadai {
 				if (oneRecord.startsWith(KadaiConstants.DATE_START)
 						|| oneRecord.startsWith(KadaiConstants.DATE_END)) {
 					continue;
-				}
-
-				// 日付囲みで囲まれてない場合エラー
-				if (!KadaiConstants.COLUMN_START.equals(oneRecord.replace(KadaiConstants.SPACE,
-						KadaiConstants.BLANK_CHAR).substring(index + KadaiConstants.COLUMN_POSITION_START,
-								index + KadaiConstants.COLUMN_POSITION_END))
-								|| !oneRecord.replace(KadaiConstants.SPACE,
-								KadaiConstants.BLANK_CHAR).endsWith(KadaiConstants.COLUMN_END)) {
-					throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 				}
 
 				List<WorkTime> answerList = new ArrayList<WorkTime>();
@@ -165,11 +153,26 @@ public class Kadai {
 						// BOM、制御文字チェック
 						checkRecord(oneRecord);
 
-						index = oneRecord.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
+						// コロンの位置
+						int index = oneRecord.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
 
 						// 年月を取得
 						month = KadaiUtil.obtainDate(oneRecord, KadaiConstants.YEAR_MONTH_START_POSITION,
 								index - KadaiConstants.YEAR_MONTH_END_POSITION);
+
+						index = oneRecord.replace(KadaiConstants.SPACE,
+								KadaiConstants.BLANK_CHAR).indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
+
+						// 日付囲みで囲まれてない場合エラー
+						if (!KadaiConstants.COLUMN_START.equals(oneRecord.replace(KadaiConstants.SPACE,
+								KadaiConstants.BLANK_CHAR).substring(index + KadaiConstants.COLUMN_POSITION_START,
+										index + KadaiConstants.COLUMN_POSITION_END))
+										|| !oneRecord.replace(KadaiConstants.SPACE,
+										KadaiConstants.BLANK_CHAR).endsWith(KadaiConstants.COLUMN_END)) {
+							throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
+						}
+
+						index = oneRecord.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
 
 						// 1か月分のデータを取得
 						String monthData = oneRecord.substring(index + KadaiConstants.MONTH_DATA_START_POSITION,
@@ -177,7 +180,7 @@ public class Kadai {
 
 						String[] workTimeInfo = monthData.split(KadaiConstants.DATE_DELIMITER, -1);
 
-						Map<String, String> oneWorkDateMap = new HashMap<String, String>();
+						Map<String, String> oneWorkDateMap = new TreeMap<String, String>();
 
 						for (String workTime : workTimeInfo) {
 							index = workTime.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
@@ -198,18 +201,14 @@ public class Kadai {
 							oneWorkDateMap.put(date, data);
 						}
 
-						// 日付の順にソート
-						List<String> _oneWorkDateList = (List<String>) oneWorkDateMap.values();
-						Collections.sort(_oneWorkDateList, new DateComparator());
-
 						// カラム数
 						int count = 0;
 
-						for(String oneWorkDay : oneWorkDateMap.values()) {
+						for(Entry<String, String> entry : oneWorkDateMap.entrySet()) {
 
 							// カンマごとに区切る
-							String[] workDayInfo = oneWorkDateMap.get(oneWorkDay).split(KadaiConstants.DELIMITER, -1);
-							workTimeMap.put(KadaiConstants.DATE, oneWorkDay);
+							String[] workDayInfo = entry.getValue().split(KadaiConstants.DELIMITER, -1);
+							workTimeMap.put(KadaiConstants.DATE, entry.getKey());
 							count++;
 
 							for (String workDay : workDayInfo) {
