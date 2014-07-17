@@ -205,7 +205,4 @@ public class KadaiConstants {
 
 	 /**  TIME_FORMAT  時間フォーマット  */
 	 public static final String TIME_FORMAT = "HHmm";
-
-	 /**  DIRECTORY_PLACE  ディレクトリ  */
-	 public static final String DIRECTORY_PLACE = "\\";
 }

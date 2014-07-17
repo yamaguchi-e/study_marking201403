@@ -2,6 +2,7 @@
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -96,7 +97,7 @@ public class Kadai {
 		List<WorkTime> answerList = readWorkTimeFile(anInputPath);
 
 		// 出力ファイルへの書き込み
-		writeWorkTimeFile(anOutputPath, answerList);
+		writeWorkTimeFile(anOutputPath, null, answerList);
 	}
 
 	/**
@@ -144,8 +145,7 @@ public class Kadai {
 			checkOverlapDate(answerMap, entry.getKey());
 
 			// ファイル書き込み
-			writeWorkTimeFile(anOutputPath + KadaiConstants.DIRECTORY_PLACE
-					+ entry.getKey(), entry.getValue());
+			writeWorkTimeFile(anOutputPath, entry.getKey(), entry.getValue());
 		}
 	}
 
@@ -443,13 +443,21 @@ public class Kadai {
 	 * @param answerList 勤務時間のリスト
 	 * @throws KadaiException
 	 */
-	private static void writeWorkTimeFile(String anOutputPath, List<WorkTime> answerList) throws KadaiException {
+	private static void writeWorkTimeFile(String anOutputPath, String fileName, List<WorkTime> answerList) throws KadaiException {
 		BufferedWriter bufferedWriter = null;
 
 		try {
-			bufferedWriter = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(anOutputPath, true),
-					KadaiConstants.CHARACTER_CODE));
+			if (null == fileName) {
+				// 課題1用の書き込みファイル作成
+				bufferedWriter = new BufferedWriter(new OutputStreamWriter(
+						new FileOutputStream(anOutputPath, true),
+						KadaiConstants.CHARACTER_CODE));
+			} else {
+				// 課題2用の書き込みファイル作成
+				bufferedWriter = new BufferedWriter(new OutputStreamWriter(
+						new FileOutputStream(new File(anOutputPath, fileName), true),
+						KadaiConstants.CHARACTER_CODE));
+			}
 
 			bufferedWriter.write(KadaiConstants.ATTENDANCE_START);
 			bufferedWriter.newLine();
