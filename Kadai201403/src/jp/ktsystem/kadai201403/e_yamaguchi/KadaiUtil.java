@@ -52,19 +52,6 @@ public class KadaiUtil {
 	}
 
 	/**
-	 * エラーコードをbeanにセット
-	 * <br>
-	 * @param errorCode エラーコード
-	 * @return エラーbean
-	 */
-	public static WorkTime setErrorCode(String errorCode) {
-		WorkTime workTime = new WorkTime();
-		workTime.setErrorCode(errorCode);
-
-		return workTime;
-	}
-
-	/**
 	 * データから日付を取得
 	 * <br>
 	 * @param data 取得データ

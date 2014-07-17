@@ -302,7 +302,7 @@ public class Kadai {
 						}
 					}
 				} catch (KadaiException ke) {
-					WorkTime workTime = KadaiUtil.setErrorCode(ke.getErrorCode());
+					WorkTime workTime = new WorkTime(ke.getErrorCode());
 					answerList.add(workTime);
 					answerMap.put(month, answerList);
 
@@ -410,7 +410,7 @@ public class Kadai {
 					answerList.add(workTime);
 					workTimeMap.clear();
 				} catch (KadaiException ke) {
-					WorkTime workTime = KadaiUtil.setErrorCode(ke.getErrorCode());
+					WorkTime workTime = new WorkTime(ke.getErrorCode());
 					answerList.add(workTime);
 
 					// エラーが発生した場合、処理打ち切り

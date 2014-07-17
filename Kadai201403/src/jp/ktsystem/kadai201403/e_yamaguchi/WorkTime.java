@@ -15,6 +15,13 @@ public class WorkTime implements Serializable {
 	private String sumWorkTime;
 	private String errorCode;
 
+	public WorkTime() {
+	}
+
+	public WorkTime(String error) {
+		errorCode = error;
+	}
+
 	public String getErrorCode() {
 		return errorCode;
 	}
