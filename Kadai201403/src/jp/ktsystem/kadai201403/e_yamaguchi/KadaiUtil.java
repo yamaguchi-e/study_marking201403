@@ -86,4 +86,17 @@ public class KadaiUtil {
 	public static String obtainDate(String data, int start, int end) {
 		return data.replace(KadaiConstants.DATE_COLUMN, KadaiConstants.BLANK_CHAR).substring(start, end).trim();
 	}
+
+	/**
+	 * データフォーマットチェック
+	 * <br>
+	 * @param data 取得データ
+	 * @throws KadaiException
+	 */
+	public static void checkDataFormat(String data) throws KadaiException {
+		// データがフォーマットに合ってない場合エラー
+		if (!data.contains(KadaiConstants.ITEM_AND_VALUE_DELIMITER)) {
+			throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
+		}
+	}
 }

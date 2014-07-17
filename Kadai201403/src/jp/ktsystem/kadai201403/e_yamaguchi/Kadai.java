@@ -183,6 +183,9 @@ public class Kadai {
 					continue;
 				}
 
+				// データフォーマットチェック
+				KadaiUtil.checkDataFormat(oneRecord);
+
 				List<WorkTime> answerList = new ArrayList<WorkTime>();
 				String month = null;
 
@@ -231,6 +234,9 @@ public class Kadai {
 						for (String workTime : workTimeInfo) {
 							index = workTime.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
 
+							// データフォーマットチェック
+							KadaiUtil.checkDataFormat(workTime);
+
 							// 日にちを取得
 							String date = KadaiUtil.obtainDate(workTime, KadaiConstants.DATE_START_POSITION,
 									index - KadaiConstants.DATE_END_POSITION);
@@ -255,6 +261,9 @@ public class Kadai {
 
 							for (String workDay : workDayInfo) {
 								index = workDay.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
+
+								// データフォーマットチェック
+								KadaiUtil.checkDataFormat(workDay);
 
 								// 勤務開始時間、終了時間を取得
 								String key = KadaiUtil.obtainDate(workDay, KadaiConstants.ITEM_NAME_START_POSITION,
@@ -327,7 +336,7 @@ public class Kadai {
 	 * @return 勤務時間のリスト
 	 * @throws KadaiException
 	 */
-	public static List<WorkTime> readWorkTimeFile(String anInputPath) throws KadaiException {
+	private static List<WorkTime> readWorkTimeFile(String anInputPath) throws KadaiException {
 
 		// 行ごとに勤務時間を入れるリスト
 		List<WorkTime> answerList = new ArrayList<WorkTime>();
@@ -365,6 +374,9 @@ public class Kadai {
 							if (oneRecord.trim().isEmpty()) {
 								throw new KadaiException(KadaiConstants.INPUT_NULL_OR_BLANK_ERROR);
 							}
+
+							// データフォーマットチェック
+							KadaiUtil.checkDataFormat(oneRecord);
 						}
 
 						int index = oneRecord.indexOf(KadaiConstants.ITEM_AND_VALUE_DELIMITER);
@@ -431,7 +443,7 @@ public class Kadai {
 	 * @param answerList 勤務時間のリスト
 	 * @throws KadaiException
 	 */
-	public static void writeWorkTimeFile(String anOutputPath, List<WorkTime> answerList) throws KadaiException {
+	private static void writeWorkTimeFile(String anOutputPath, List<WorkTime> answerList) throws KadaiException {
 		BufferedWriter bufferedWriter = null;
 
 		try {

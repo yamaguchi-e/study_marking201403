@@ -579,6 +579,13 @@ public class TestKadai1 extends TestCase {
 		execute(SAMPLE_RESULT_PATH + "Case77.txt", "Case77.txt", answerList);
 	}
 
+	public void testCase78() {
+		List<WorkTime> answerList = new ArrayList<WorkTime>();
+		answerList = setList(null, null, null, "2", answerList);
+
+		execute(SAMPLE_RESULT_PATH + "Case78.txt", "Case78.txt", answerList);
+	}
+
 	/**
 	 * @param workDate
 	 * @param workTime
