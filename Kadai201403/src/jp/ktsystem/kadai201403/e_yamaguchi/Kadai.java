@@ -102,9 +102,6 @@ public class Kadai {
 
 	/**
 	 * 課題2
-	 * <br>
-	 * 課題2は出力ファイルに出力する日付(answerMapに渡す日付)が
-	 * 日付順にソートされていることが前提である。
 	 *
 	 * @param anInputPath 入力ファイル
 	 * @param anOutputPath 出力ファイル
@@ -438,6 +435,9 @@ public class Kadai {
 
 	/**
 	 * ファイル書き込み
+	 * <br>
+	 * 課題2の書き込みの場合、出力ファイルに出力する日付(answerListの日付)が
+	 * 日付順にソートされていることが前提である。
 	 *
 	 * @param anOutputPath 出力ファイル
 	 * @param answerList 勤務時間のリスト
