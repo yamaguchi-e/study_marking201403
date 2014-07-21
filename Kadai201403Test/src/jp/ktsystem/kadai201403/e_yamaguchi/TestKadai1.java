@@ -1,4 +1,4 @@
-package jp.ktsystem.kadai201403.e_yamaguchi;
+﻿package jp.ktsystem.kadai201403.e_yamaguchi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -584,6 +584,13 @@ public class TestKadai1 extends TestCase {
 		answerList = setList(null, null, null, "2", answerList);
 
 		execute(SAMPLE_RESULT_PATH + "Case78.txt", "Case78.txt", answerList);
+	}
+
+	public void testCase79() {
+		List<WorkTime> answerList = new ArrayList<WorkTime>();
+		answerList = setList(null, null, null, "2", answerList);
+
+		execute(SAMPLE_RESULT_PATH + "Case79.txt", "Case79.txt", answerList);
 	}
 
 	/**

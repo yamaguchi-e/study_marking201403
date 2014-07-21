@@ -388,6 +388,9 @@ public class Kadai {
 
 						workTimeMap.put(key, value);
 
+						// データ名チェック
+						checkDataName(workTimeMap);
+
 						continue;
 					}
 
@@ -617,17 +620,12 @@ public class Kadai {
 	}
 
 	/**
-	 * 日付とデータ数のチェック
+	 * データ名チェック
 	 *
 	 * @param workTimeMap 勤怠データ
 	 * @throws KadaiException
 	 */
-	private static void checkDateAndDataCount(Map<String, String> workTimeMap) throws KadaiException {
-
-		// 要素が3以外の場合エラー
-		if (KadaiConstants.ELEMENT_COUNT != workTimeMap.size()) {
-			throw new KadaiException(KadaiConstants.INPUT_FILE_FORMAT_ERROR);
-		}
+	private static void checkDataName(Map<String, String> workTimeMap) throws KadaiException {
 
 		List<String> keyList = new ArrayList<String>();
 		keyList.add(KadaiConstants.DATE);
@@ -643,6 +641,20 @@ public class Kadai {
 			if (!keyList.contains(entry.getKey())) {
 				throw new KadaiException(KadaiConstants.INPUT_CONTROL_ERROR);
 			}
+		}
+	}
+
+	/**
+	 * 日付とデータ数のチェック
+	 *
+	 * @param workTimeMap 勤怠データ
+	 * @throws KadaiException
+	 */
+	private static void checkDateAndDataCount(Map<String, String> workTimeMap) throws KadaiException {
+
+		// 要素が3以外の場合エラー
+		if (KadaiConstants.ELEMENT_COUNT != workTimeMap.size()) {
+			throw new KadaiException(KadaiConstants.INPUT_FILE_FORMAT_ERROR);
 		}
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(KadaiConstants.DATE_FORMAT);

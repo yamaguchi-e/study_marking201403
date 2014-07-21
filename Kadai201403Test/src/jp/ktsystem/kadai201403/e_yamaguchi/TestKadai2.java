@@ -1,4 +1,4 @@
-package jp.ktsystem.kadai201403.e_yamaguchi;
+﻿package jp.ktsystem.kadai201403.e_yamaguchi;
 
 import junit.framework.TestCase;
 /**
@@ -121,6 +121,10 @@ public class TestKadai2 extends TestCase {
 
 	public void testCase21() {
 		execute(SAMPLE_RESULT_PATH + "Case21.txt", SAMPLE_OUTPUT_PATH + "Case21");
+	}
+
+	public void testCase22() {
+		executeInvalid(SAMPLE_RESULT_PATH + "Case22.txt", SAMPLE_OUTPUT_PATH + "Case22.txt", "2");
 	}
 
 }
